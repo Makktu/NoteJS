@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Scratchpad</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #2b2b2b;
+            color: #a9b7c6;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #3c3f41;
+            padding: 8px 16px;
+            border-bottom: 1px solid #555;
+            flex-shrink: 0;
+            z-index: 100;
+        }
+        h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: #a9b7c6;
+        }
+        .buttons {
+            display: flex;
+            gap: 10px;
+        }
+        button {
+            padding: 8px 16px;
+            background-color: #365880;
+            color: #e8e8e8;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.2s;
+        }
+        button:hover {
+            background-color: #4c708c;
+        }
+        button.clear {
+            background-color: #72404c;
+        }
+        button.clear:hover {
+            background-color: #8c4c5c;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            flex: 1;
+            overflow: hidden;
+            min-height: 0; /* Important for Firefox */
+        }
+        .code-area, .output-area {
+            display: flex;
+            flex-direction: column;
+            padding: 16px;
+            box-sizing: border-box;
+            overflow: hidden;
+            min-height: 0; /* Important for Firefox */
+        }
+        .code-area {
+            border-right: 1px solid #555;
+        }
+        h2 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #a9b7c6;
+            font-size: 1.2rem;
+        }
+        #editor {
+            flex-grow: 1;
+            border: 1px solid #555;
+            border-radius: 5px;
+            overflow: hidden;
+            display: flex;
+            height: 100%;
+        }
+
+        /* Make CodeMirror fill the available space */
+        .CodeMirror {
+            width: 100%;
+            height: 100% !important;
+        }
+
+        #output {
+            flex-grow: 1;
+            padding: 15px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            background-color: #2b2b2b;
+            color: #a9b7c6;
+            border: 1px solid #555;
+            border-radius: 5px;
+            overflow-y: auto;
+        }
+        .console-log {
+            color: #a9b7c6;
+            margin-bottom: 5px;
+        }
+        .console-error {
+            color: #ff5370;
+            margin-bottom: 5px;
+        }
+        .console-warn {
+            color: #ffcb6b;
+            margin-bottom: 5px;
+        }
+        .syntax-error {
+            color: #ff5370;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        pre {
+            margin: 0;
+        }
+
+        /* For browsers that don't support the native editor */
+        #fallbackEditor {
+            width: 100%;
+            height: 100%;
+            padding: 15px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 16px;
+            background-color: #2b2b2b;
+            color: #a9b7c6;
+            border: none;
+            resize: none;
+            tab-size: 2;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        /* Style for autocomplete popup */
+        .CodeMirror-hints {
+            position: absolute;
+            z-index: 10;
+            overflow: hidden;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            border-radius: 3px;
+            border: 1px solid #555;
+            background: #2b2b2b;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            max-height: 20em;
+            overflow-y: auto;
+            font-family: 'Consolas', 'Courier New', monospace;
+        }
+
+        .CodeMirror-hint {
+            margin: 0;
+            padding: 5px 10px;
+            white-space: pre;
+            color: #a9b7c6;
+            cursor: pointer;
+        }
+
+        li.CodeMirror-hint-active {
+            background: #365880;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>JavaScript Scratchpad</h1>
+        <div class="buttons">
+            <button id="run">Run (Ctrl+Enter/Cmd+Enter)</button>
+            <button class="clear" id="clear">Clear Output</button>
+        </div>
+    </div>
+    <div class="container">
+        <div class="code-area">
+            <h2>Code</h2>
+            <div id="editor"></div>
+        </div>
+        <div class="output-area">
+            <h2>Output</h2>
+            <div id="output"></div>
+        </div>
+    </div>
+
+    <!-- Load CodeMirror library and addons -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/mode/javascript/javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/addon/hint/show-hint.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/addon/hint/javascript-hint.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/addon/edit/matchbrackets.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/addon/edit/closebrackets.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/theme/darcula.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/addon/hint/show-hint.min.css">
+
+    <script>
+        // Initial code
+        const initialCode = `// Your code here
+console.log("Hello, world!");
+
+// Example: Try calculating something
+const sum = (a, b) => a + b;
+console.log(sum(5, 10));
+
+// Example: Working with arrays
+const numbers = [1, 2, 3, 4, 5];
+const doubled = numbers.map(n => n * 2);
+console.log(doubled);
+
+// Example: DOM manipulation (won't affect this page)
+// document.body.style.backgroundColor = "lightblue";
+
+// Uncomment to see error handling
+// console.error("This is an error message");
+// throw new Error("Custom error");`;
+
+        const outputDiv = document.getElementById('output');
+        const runBtn = document.getElementById('run');
+        const clearBtn = document.getElementById('clear');
+        let editor;
+
+        // Initialize CodeMirror editor
+        try {
+            editor = CodeMirror(document.getElementById('editor'), {
+                value: initialCode,
+                mode: "javascript",
+                theme: "darcula",
+                lineNumbers: true,
+                autoCloseBrackets: true,
+                matchBrackets: true,
+                indentUnit: 2,
+                tabSize: 2,
+                indentWithTabs: false,
+                extraKeys: {
+                    "Ctrl-Enter": runCode,
+                    "Cmd-Enter": runCode,
+                    "Tab": function(cm) {
+                        // If something is selected, indent it
+                        if (cm.somethingSelected()) {
+                            cm.indentSelection("add");
+                        } else {
+                            // Check if we should do autocompletion
+                            const cursor = cm.getCursor();
+                            const token = cm.getTokenAt(cursor);
+
+                            if (token.type !== "comment" && token.string.trim() !== "") {
+                                CodeMirror.commands.autocomplete(cm);
+                            } else {
+                                // Just insert a soft tab
+                                cm.replaceSelection("  ", "end");
+                            }
+                        }
+                    },
+                    "Ctrl-Space": "autocomplete"
+                }
+            });
+
+            // Setup autocompletion
+            editor.on("keyup", function(cm, event) {
+                // Don't activate for backspace, enter, tab, etc
+                const excludeKeys = [8, 9, 13, 16, 17, 18, 19, 20, 27, 33, 34, 35, 36, 37, 38, 39, 40, 45, 46, 91, 92, 93];
+                const cursor = cm.getCursor();
+                const token = cm.getTokenAt(cursor);
+
+                if (!excludeKeys.includes(event.keyCode) &&
+                    token.type !== "comment" &&
+                    token.string.length > 1) {
+                    // Auto show completion after typing 2 characters
+                    CodeMirror.commands.autocomplete(cm);
+                }
+            });
+        } catch (e) {
+            // Fallback to textarea if CodeMirror fails to load
+            console.error("CodeMirror failed to load:", e);
+            const editorDiv = document.getElementById('editor');
+            editorDiv.innerHTML = '';
+            const textarea = document.createElement('textarea');
+            textarea.id = 'fallbackEditor';
+            textarea.spellcheck = false;
+            textarea.value = initialCode;
+            editorDiv.appendChild(textarea);
+
+            // Set the editor reference to the textarea
+            editor = {
+                getValue: function() {
+                    return document.getElementById('fallbackEditor').value;
+                }
+            };
+
+            // Add tab support for the fallback editor
+            document.getElementById('fallbackEditor').addEventListener('keydown', (e) => {
+                if (e.key === 'Tab') {
+                    e.preventDefault();
+
+                    const start = e.target.selectionStart;
+                    const end = e.target.selectionEnd;
+
+                    // Insert tab at cursor or indent selected text
+                    e.target.value = e.target.value.substring(0, start) + '  ' + e.target.value.substring(end);
+
+                    // Move cursor after the inserted tab
+                    e.target.selectionStart = e.target.selectionEnd = start + 2;
+                } else if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                    runCode();
+                    e.preventDefault();
+                }
+            });
+        }
+
+        // Original console methods
+        const originalConsole = {
+            log: console.log,
+            error: console.error,
+            warn: console.warn,
+            info: console.info
+        };
+
+        // Format output based on type
+        function formatOutput(args, type) {
+            const output = Array.from(args).map(arg => {
+                if (typeof arg === 'object') {
+                    return JSON.stringify(arg, null, 2);
+                }
+                return String(arg);
+            }).join(' ');
+
+            const div = document.createElement('div');
+            div.className = `console-${type}`;
+            div.textContent = output;
+            return div;
+        }
+
+        // Function to format JSON with syntax highlighting
+        function formatJSON(json) {
+            if (typeof json !== 'string') {
+                json = JSON.stringify(json, null, 2);
+            }
+
+            const pre = document.createElement('pre');
+            pre.textContent = json;
+            return pre;
+        }
+
+        function runCode() {
+            // Clear previous output
+            outputDiv.innerHTML = '';
+
+            // Override console methods
+            console.log = function() {
+                const div = document.createElement('div');
+                div.className = 'console-log';
+
+                Array.from(arguments).forEach(arg => {
+                    if (typeof arg === 'object') {
+                        div.appendChild(formatJSON(arg));
+                    } else {
+                        const span = document.createElement('span');
+                        span.textContent = String(arg) + ' ';
+                        div.appendChild(span);
+                    }
+                });
+
+                outputDiv.appendChild(div);
+                originalConsole.log.apply(console, arguments);
+            };
+
+            console.error = function() {
+                outputDiv.appendChild(formatOutput(arguments, 'error'));
+                originalConsole.error.apply(console, arguments);
+            };
+
+            console.warn = function() {
+                outputDiv.appendChild(formatOutput(arguments, 'warn'));
+                originalConsole.warn.apply(console, arguments);
+            };
+
+            console.info = function() {
+                outputDiv.appendChild(formatOutput(arguments, 'log'));
+                originalConsole.info.apply(console, arguments);
+            };
+
+            // Get code from editor
+            const code = editor.getValue();
+
+            try {
+                // Execute the code
+                const result = eval(code);
+
+                // If the code returns a value and doesn't log anything, show the result
+                if (result !== undefined && outputDiv.children.length === 0) {
+                    console.log(result);
+                }
+            } catch (error) {
+                // Handle errors
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'syntax-error';
+                errorDiv.textContent = `${error.name}: ${error.message}`;
+                outputDiv.appendChild(errorDiv);
+            }
+
+            // Restore original console
+            console.log = originalConsole.log;
+            console.error = originalConsole.error;
+            console.warn = originalConsole.warn;
+            console.info = originalConsole.info;
+        }
+
+        // Run button click handler
+        runBtn.addEventListener('click', runCode);
+
+        // Clear output button
+        clearBtn.addEventListener('click', () => {
+            outputDiv.innerHTML = '';
+        });
+
+        // Run the code initially
+        setTimeout(runCode, 100);  // Small delay to ensure editor is fully loaded
+    </script>
+</body>
+</html>
