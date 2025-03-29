@@ -241,10 +241,10 @@
     <!-- Load CodeMirror library and addons -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/codemirror.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/mode/javascript/javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/addon/edit/closebrackets.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/addon/edit/matchbrackets.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/addon/hint/show-hint.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/addon/hint/javascript-hint.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/addon/edit/matchbrackets.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/addon/edit/closebrackets.min.js"></script>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/codemirror.min.css"
@@ -316,34 +316,42 @@ console.log(doubled);
                 const token = cm.getTokenAt(cursor);
 
                 if (token.type !== 'comment' && token.string.trim() !== '') {
-                  CodeMirror.commands.autocomplete(cm);
+                  CodeMirror.commands.autocomplete(cm, null, { completeSingle: false });
                 } else {
                   // Just insert a soft tab
                   cm.replaceSelection('  ', 'end');
                 }
               }
             },
-            'Ctrl-Space': 'autocomplete',
+            'Ctrl-Space': function(cm) {
+              CodeMirror.commands.autocomplete(cm, null, { completeSingle: false });
+            }
           },
+          hintOptions: {
+            completeSingle: false,
+            alignWithWord: true
+          }
         });
 
         // Setup autocompletion
         editor.on('keyup', function (cm, event) {
-          // Don't activate for backspace, enter, tab, etc
+          // Don't activate for special keys
           const excludeKeys = [
             8, 9, 13, 16, 17, 18, 19, 20, 27, 33, 34, 35, 36, 37, 38, 39, 40,
             45, 46, 91, 92, 93,
           ];
-          const cursor = cm.getCursor();
-          const token = cm.getTokenAt(cursor);
-
-          if (
-            !excludeKeys.includes(event.keyCode) &&
-            token.type !== 'comment' &&
-            token.string.length > 1
-          ) {
-            // Auto show completion after typing 2 characters
-            CodeMirror.commands.autocomplete(cm);
+          
+          if (!excludeKeys.includes(event.keyCode)) {
+            const cursor = cm.getCursor();
+            const token = cm.getTokenAt(cursor);
+            
+            // Show hints if we're not in a comment and have started typing a word
+            if (token.type !== 'comment' && token.string.trim().length > 0) {
+              CodeMirror.commands.autocomplete(cm, null, { 
+                completeSingle: false,
+                closeOnUnfocus: false
+              });
+            }
           }
         });
       } catch (e) {
