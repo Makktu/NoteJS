@@ -6,7 +6,9 @@ A lightweight, single-file JavaScript scratchpad for quick code testing and expe
 
 ## Overview
 
-NoteJS is a pure vanilla JavaScript scratchpad that provides a simple, distraction-free environment for testing JavaScript code snippets directly in your browser. The entire application is contained in a single HTML file with no dependencies, installation, or setup required.
+NoteJS is a pure vanilla JavaScript scratchpad that provides a simple, distraction-free environment for testing JavaScript code snippets.
+It runs directly in the browser.
+The entire application is contained in a single HTML file with no dependencies, installation, or further setup required.
 
 ## Features
 
@@ -32,11 +34,11 @@ NoteJS was created with a few key principles in mind:
 
 ## Usage
 
-1. Download the single HTML file (`notejs.html`)
-2. Open it in any modern browser
-3. Start writing JavaScript in the left panel
-4. Run your code with the Run button or Ctrl+Enter/Cmd+Enter
-5. See the output in the right panel
+1. Download the single HTML file (`note-js.html`). Nothing else needed.
+2. Open it in any modern browser.
+3. Start writing vanilla JavaScript in the left panel.
+4. Run the code with the Run button or Ctrl+Enter/Cmd+Enter.
+5. See the output in the right panel.
 
 ## Code Completion
 
@@ -46,6 +48,8 @@ NoteJS features code completion similar to modern IDEs:
 - Press Tab or Ctrl+Space to trigger completion manually
 - Navigate suggestions with arrow keys
 - Press Enter to apply the selected suggestion
+- v1.0 is currently a touch janky. Sometimes completes when it
+  shouldn't, and doesn't complete when it should. Work in progress.
 
 ## Keyboard Shortcuts
 
@@ -64,7 +68,9 @@ NoteJS works in all modern browsers, including:
 
 ## Project Ethos
 
-NoteJS embraces the philosophy that the best tools are often the simplest ones. Inspired by the humble sticky note or scrap paper, NoteJS provides just enough functionality to be useful without the complexity and overhead of larger development environments.
+NoteJS embraces the philosophy that the best tools are the simplest ones.
+Inspired by the humble sticky note or scrap paper, NoteJS provides just enough functionality
+to be useful without the complexity and overhead of larger development environments.
 
 The entire application is built with vanilla JavaScript - no frameworks, no build systems, no package managers. This keeps the tool lightweight, portable, and focused on its core purpose: quickly testing JavaScript code.
 
@@ -72,7 +78,7 @@ The entire application is built with vanilla JavaScript - no frameworks, no buil
 
 - No file system access (by browser security design)
 - Limited to JavaScript (TypeScript not supported in this version)
-- No persistent storage (yet!)
+- No persistent storage (yet)
 
 ## Future Plans
 
@@ -87,16 +93,6 @@ While maintaining the simplicity of a single HTML file, future enhancements may 
 ## License
 
 MIT License - feel free to use, modify, and distribute as you see fit.
-
-## Contributing
-
-Contributions are welcome! If you have ideas for improvements while maintaining the single-file simplicity, feel free to:
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
 
 ## Acknowledgments
 
