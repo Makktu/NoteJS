@@ -221,7 +221,7 @@
         </svg>
       </div>
       <div class="buttons">
-        <button id="run">Run (Ctrl+Enter/Cmd+Enter)</button>
+        <button id="run">Run</button>
         <button class="clear" id="clear">Clear Output</button>
       </div>
     </div>
@@ -283,6 +283,10 @@ console.log(doubled);
       const runBtn = document.getElementById('run');
       const clearBtn = document.getElementById('clear');
       let editor;
+
+      // Set platform-specific keyboard shortcut text
+      const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+      runBtn.textContent = `Run (${isMac ? 'Cmd+Enter' : 'Ctrl+Enter'})`;
 
       // Initialize CodeMirror editor
       try {
