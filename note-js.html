@@ -41,6 +41,27 @@
         font-size: 1.5rem;
         color: #a9b7c6;
       }
+      .theme-picker {
+        margin-left: 15px;
+        display: flex;
+        align-items: center;
+      }
+      .theme-picker select {
+        background-color: #3c3f41;
+        color: #a9b7c6;
+        border: 1px solid #555;
+        border-radius: 4px;
+        padding: 4px 8px;
+        font-size: 14px;
+        cursor: pointer;
+        outline: none;
+      }
+      .theme-picker select:hover {
+        border-color: #6c6c6c;
+      }
+      .theme-picker select:focus {
+        border-color: #4c708c;
+      }
       .buttons {
         display: flex;
         gap: 10px;
@@ -128,6 +149,101 @@
         background-color: #4c708c;
       }
 
+      /* Font size picker styles */
+      .font-size-picker {
+        position: absolute;
+        top: 10px;
+        right: 65px;
+        z-index: 10;
+      }
+
+      .font-size-picker select {
+        background-color: #3c3f41;
+        color: #a9b7c6;
+        border: 1px solid #555;
+        border-radius: 4px;
+        padding: 4px 8px;
+        font-size: 14px;
+        cursor: pointer;
+        outline: none;
+        height: 30px;
+      }
+
+      .font-size-picker select:hover {
+        border-color: #6c6c6c;
+      }
+
+      .font-size-picker select:focus {
+        border-color: #4c708c;
+      }
+
+      /* Toggle switch styles */
+      .toggle-container {
+        position: absolute;
+        top: 10px;
+        right: 155px;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        height: 30px; /* Match the height of the font picker */
+      }
+
+      .toggle-container label {
+        margin-right: 8px;
+        color: #a9b7c6;
+        font-size: 14px;
+        user-select: none;
+        display: flex;
+        align-items: center;
+      }
+
+      .toggle-switch {
+        position: relative;
+        display: inline-block;
+        width: 40px;
+        height: 20px;
+        margin-top: 1px; /* Fine-tune vertical alignment */
+      }
+
+      .toggle-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+
+      .toggle-slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #555;
+        transition: .4s;
+        border-radius: 20px;
+      }
+
+      .toggle-slider:before {
+        position: absolute;
+        content: "";
+        height: 14px;
+        width: 14px;
+        left: 3px;
+        bottom: 3px;
+        background-color: #a9b7c6;
+        transition: .4s;
+        border-radius: 50%;
+      }
+
+      input:checked + .toggle-slider {
+        background-color: #365880;
+      }
+
+      input:checked + .toggle-slider:before {
+        transform: translateX(20px);
+        background-color: #e8e8e8;
+      }
+
       /* Set max-width for CodeMirror content based on character count */
       .CodeMirror-line {
         /* This width is approximately 78 characters in monospace font */
@@ -211,6 +327,12 @@
         background: #365880;
         color: #ffffff;
       }
+
+      /* Custom style for user-defined hints */
+      .user-defined-hint {
+        color: #ffcb6b !important;
+        font-style: italic;
+      }
     </style>
   </head>
   <body>
@@ -220,6 +342,20 @@
           <rect width="150" height="50" fill="#2b2b2b" rx="8"/>
           <text x="18" y="33" font-family="monospace" font-size="26" fill="#E0E0E0" font-weight="bold">Note{JS}</text>
         </svg>
+        <div class="theme-picker">
+          <select id="theme-select">
+            <option value="darcula">Darcula</option>
+            <option value="ambiance">Ambiance</option>
+            <option value="material">Material</option>
+            <option value="dracula">Dracula</option>
+            <option value="monokai">Monokai</option>
+            <option value="nord">Nord</option>
+            <option value="solarized">Solarized</option>
+            <option value="tomorrow-night-bright">Tomorrow Night</option>
+            <option value="eclipse">Eclipse (Light)</option>
+            <option value="idea">IntelliJ (Light)</option>
+          </select>
+        </div>
       </div>
       <div class="buttons">
         <button id="run">Run</button>
@@ -230,11 +366,40 @@
       <div class="code-area">
         <h2>Code</h2>
         <div id="editor"></div>
+        <div class="toggle-container">
+          <label for="autocomplete-toggle">Autocomplete</label>
+          <label class="toggle-switch">
+            <input type="checkbox" id="autocomplete-toggle" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="font-size-picker">
+          <select id="code-font-size">
+            <option value="12">12px</option>
+            <option value="14" selected>14px</option>
+            <option value="16">16px</option>
+            <option value="18">18px</option>
+            <option value="20">20px</option>
+            <option value="22">22px</option>
+            <option value="24">24px</option>
+          </select>
+        </div>
         <div class="copy-button">📋</div>
       </div>
       <div class="output-area">
         <h2>Output</h2>
         <div id="output"></div>
+        <div class="font-size-picker">
+          <select id="output-font-size">
+            <option value="12">12px</option>
+            <option value="14" selected>14px</option>
+            <option value="16">16px</option>
+            <option value="18">18px</option>
+            <option value="20">20px</option>
+            <option value="22">22px</option>
+            <option value="24">24px</option>
+          </select>
+        </div>
         <div class="copy-button output-copy">📋</div>
       </div>
     </div>
@@ -254,6 +419,16 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/theme/darcula.min.css"
     />
+    <!-- Additional CodeMirror themes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/theme/ambiance.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/theme/material.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/theme/dracula.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/theme/monokai.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/theme/nord.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/theme/solarized.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/theme/tomorrow-night-bright.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/theme/eclipse.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/theme/idea.min.css">
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/addon/hint/show-hint.min.css"
@@ -289,6 +464,101 @@ console.log(doubled);
       const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
       runBtn.textContent = `Run (${isMac ? 'Cmd+Enter' : 'Ctrl+Enter'})`;
 
+      // Function to extract user-defined variables and functions from code
+      function extractUserDefinedSymbols(code) {
+        const symbols = new Set();
+        
+        // Regular expressions to match variable and function declarations
+        const patterns = [
+          // const/let/var declarations
+          /(?:const|let|var)\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*(?:=|;)/g,
+          // function declarations
+          /function\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*\(/g,
+          // arrow functions with explicit name
+          /(?:const|let|var)\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*=\s*(?:\([^)]*\)|[a-zA-Z_$][a-zA-Z0-9_$]*)\s*=>/g,
+          // class declarations
+          /class\s+([a-zA-Z_$][a-zA-Z0-9_$]*)/g,
+          // method definitions in objects or classes
+          /([a-zA-Z_$][a-zA-Z0-9_$]*)\s*\([^)]*\)\s*{/g,
+          // object property assignments
+          /\.([a-zA-Z_$][a-zA-Z0-9_$]*)\s*=/g,
+          // object destructuring
+          /{\s*([a-zA-Z_$][a-zA-Z0-9_$]*)\s*}/g
+        ];
+        
+        // Apply each pattern to extract symbols
+        patterns.forEach(pattern => {
+          let match;
+          while ((match = pattern.exec(code)) !== null) {
+            if (match[1] && !match[1].match(/^(if|else|return|for|while|switch|case|break|continue|default|try|catch|finally|throw|new|this|typeof|instanceof|in|of|do|void|delete|yield|await|async|function|class|extends|super|import|export|from|as|const|let|var)$/)) {
+              symbols.add(match[1]);
+            }
+          }
+        });
+        
+        return Array.from(symbols);
+      }
+
+      // Custom hint function that combines JavaScript keywords with user-defined symbols
+      function customHint(editor, options) {
+        // Get the default JavaScript hints
+        const defaultHints = CodeMirror.hint.javascript(editor, options);
+        
+        // Extract user-defined symbols from the current editor content
+        const userSymbols = extractUserDefinedSymbols(editor.getValue());
+        
+        // Current token being typed
+        const cursor = editor.getCursor();
+        const token = editor.getTokenAt(cursor);
+        const tokenString = token.string;
+        
+        // Filter user symbols based on current token
+        const matchingUserSymbols = userSymbols
+          .filter(symbol => symbol.startsWith(tokenString) && !defaultHints.list.includes(symbol))
+          .map(symbol => ({
+            text: symbol,
+            displayText: symbol,
+            className: 'user-defined-hint'
+          }));
+        
+        // Combine default hints with user-defined symbols
+        defaultHints.list = [...defaultHints.list, ...matchingUserSymbols];
+        
+        return defaultHints;
+      }
+
+      // Function to check if we should show hints based on context
+      function shouldShowHints(cm) {
+        // Check if autocomplete is enabled
+        if (!document.getElementById('autocomplete-toggle').checked) {
+          return false;
+        }
+        
+        const cursor = cm.getCursor();
+        const token = cm.getTokenAt(cursor);
+        const line = cm.getLine(cursor.line);
+        const prevChar = line.charAt(cursor.ch - 1) || '';
+        const nextChar = line.charAt(cursor.ch) || '';
+        
+        // Don't show hints in comments
+        if (token.type === 'comment') return false;
+        
+        // Don't show hints if the token is empty or just whitespace
+        if (token.string.trim() === '') return false;
+        
+        // Don't show hints for bracket or brace characters themselves
+        if (token.string === '(' || token.string === '{' || 
+            token.string === '[' || token.string === ')' || 
+            token.string === '}' || token.string === ']') return false;
+            
+        // Don't show hints immediately after typing an opening bracket or brace
+        // but only if there's no other character between the cursor and the bracket
+        if ((prevChar === '(' || prevChar === '{' || prevChar === '[') && 
+            token.string.length === 0) return false;
+        
+        return true;
+      }
+
       // Initialize CodeMirror editor
       try {
         editor = CodeMirror(document.getElementById('editor'), {
@@ -313,11 +583,12 @@ console.log(doubled);
                 cm.indentSelection('add');
               } else {
                 // Check if we should do autocompletion
-                const cursor = cm.getCursor();
-                const token = cm.getTokenAt(cursor);
-
-                if (token.type !== 'comment' && token.string.trim() !== '') {
-                  CodeMirror.commands.autocomplete(cm, null, { completeSingle: false });
+                if (shouldShowHints(cm)) {
+                  // Use our custom hint function instead of the default
+                  CodeMirror.showHint(cm, customHint, { 
+                    completeSingle: false,
+                    closeOnUnfocus: false
+                  });
                 } else {
                   // Just insert a soft tab
                   cm.replaceSelection('  ', 'end');
@@ -325,14 +596,29 @@ console.log(doubled);
               }
             },
             'Ctrl-Space': function(cm) {
-              CodeMirror.commands.autocomplete(cm, null, { completeSingle: false });
+              // Always show hints on explicit request with Ctrl-Space
+              CodeMirror.showHint(cm, customHint, { 
+                completeSingle: false,
+                closeOnUnfocus: false
+              });
             }
           },
           hintOptions: {
             completeSingle: false,
-            alignWithWord: true
+            alignWithWord: true,
+            hint: customHint
           }
         });
+
+        // Add CSS for user-defined hints
+        const style = document.createElement('style');
+        style.textContent = `
+          .user-defined-hint {
+            color: #ffcb6b !important;
+            font-style: italic;
+          }
+        `;
+        document.head.appendChild(style);
 
         // Setup autocompletion
         editor.on('keyup', function (cm, event) {
@@ -343,12 +629,10 @@ console.log(doubled);
           ];
           
           if (!excludeKeys.includes(event.keyCode)) {
-            const cursor = cm.getCursor();
-            const token = cm.getTokenAt(cursor);
-            
-            // Show hints if we're not in a comment and have started typing a word
-            if (token.type !== 'comment' && token.string.trim().length > 0) {
-              CodeMirror.commands.autocomplete(cm, null, { 
+            // Only show hints if context is appropriate
+            if (shouldShowHints(cm)) {
+              // Use our custom hint function instead of the default
+              CodeMirror.showHint(cm, customHint, { 
                 completeSingle: false,
                 closeOnUnfocus: false
               });
@@ -556,6 +840,95 @@ console.log(doubled);
         // Get the text content from the output div
         const outputText = outputDiv.innerText;
         copyToClipboard(outputText, outputCopyBtn);
+      });
+
+      // Theme picker functionality
+      const themeSelect = document.getElementById('theme-select');
+      
+      // Load saved theme from localStorage if available
+      const savedTheme = localStorage.getItem('notejs-theme');
+      if (savedTheme) {
+        themeSelect.value = savedTheme;
+        if (editor) {
+          editor.setOption('theme', savedTheme);
+        }
+      }
+      
+      // Theme change handler
+      themeSelect.addEventListener('change', function() {
+        const selectedTheme = this.value;
+        
+        // Update editor theme
+        if (editor) {
+          editor.setOption('theme', selectedTheme);
+        }
+        
+        // Save theme preference to localStorage
+        localStorage.setItem('notejs-theme', selectedTheme);
+      });
+
+      // Font size picker functionality
+      const codeFontSizeSelect = document.getElementById('code-font-size');
+      const outputFontSizeSelect = document.getElementById('output-font-size');
+      
+      // Load saved font sizes from localStorage if available
+      const savedCodeFontSize = localStorage.getItem('notejs-code-font-size');
+      const savedOutputFontSize = localStorage.getItem('notejs-output-font-size');
+      
+      if (savedCodeFontSize) {
+        codeFontSizeSelect.value = savedCodeFontSize;
+        updateCodeFontSize(savedCodeFontSize);
+      }
+      
+      if (savedOutputFontSize) {
+        outputFontSizeSelect.value = savedOutputFontSize;
+        updateOutputFontSize(savedOutputFontSize);
+      }
+      
+      // Function to update code editor font size
+      function updateCodeFontSize(size) {
+        if (editor) {
+          // Update the CodeMirror font size
+          document.querySelector('.CodeMirror').style.fontSize = `${size}px`;
+          // Force a refresh to ensure proper rendering
+          editor.refresh();
+        } else if (document.getElementById('fallbackEditor')) {
+          document.getElementById('fallbackEditor').style.fontSize = `${size}px`;
+        }
+      }
+      
+      // Function to update output font size
+      function updateOutputFontSize(size) {
+        document.getElementById('output').style.fontSize = `${size}px`;
+      }
+      
+      // Code font size change handler
+      codeFontSizeSelect.addEventListener('change', function() {
+        const selectedSize = this.value;
+        updateCodeFontSize(selectedSize);
+        localStorage.setItem('notejs-code-font-size', selectedSize);
+      });
+      
+      // Output font size change handler
+      outputFontSizeSelect.addEventListener('change', function() {
+        const selectedSize = this.value;
+        updateOutputFontSize(selectedSize);
+        localStorage.setItem('notejs-output-font-size', selectedSize);
+      });
+
+      // Autocomplete toggle functionality
+      const autocompleteToggle = document.getElementById('autocomplete-toggle');
+      
+      // Load saved autocomplete preference from localStorage if available
+      const savedAutocompleteState = localStorage.getItem('notejs-autocomplete');
+      if (savedAutocompleteState !== null) {
+        autocompleteToggle.checked = savedAutocompleteState === 'true';
+      }
+      
+      // Autocomplete toggle change handler
+      autocompleteToggle.addEventListener('change', function() {
+        // Save preference to localStorage
+        localStorage.setItem('notejs-autocomplete', this.checked);
       });
 
       // Run the code initially
