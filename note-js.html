@@ -549,12 +549,16 @@ console.log(doubled);
         // Don't show hints for bracket or brace characters themselves
         if (token.string === '(' || token.string === '{' || 
             token.string === '[' || token.string === ')' || 
-            token.string === '}' || token.string === ']') return false;
+            token.string === '}' || token.string === ']' ||
+            token.string === ';') return false;
             
         // Don't show hints immediately after typing an opening bracket or brace
         // but only if there's no other character between the cursor and the bracket
-        if ((prevChar === '(' || prevChar === '{' || prevChar === '[') && 
-            token.string.length === 0) return false;
+        if ((prevChar === '(' || prevChar === '{' || prevChar === '[' || 
+             prevChar === ';') && token.string.length === 0) return false;
+        
+        // Don't show hints when typing a semicolon or right after typing one
+        if (prevChar === ';' || token.string === ';') return false;
         
         return true;
       }
