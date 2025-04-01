@@ -48,15 +48,18 @@ NoteJS was created with a few key principles in mind:
 NoteJS now offers several customization options:
 
 ### Theme Selection
+
 - Click the theme dropdown next to the NoteJS logo to choose from multiple editor themes
 - Options include dark themes (Darcula, Material, Dracula, Monokai, Nord, Solarized, Tomorrow Night) and light themes (Eclipse, IntelliJ)
 
 ### Font Size Controls
+
 - Adjust the font size for the code editor using the dropdown in the code panel
 - Separately control the font size for the output panel
 - Font sizes range from 12px to 24px
 
 ### Autocomplete Toggle
+
 - Turn code completion on or off using the toggle switch in the code panel
 - Practice your coding skills without assistance when turned off
 - All preferences are saved between sessions
@@ -102,13 +105,17 @@ The entire application is built with vanilla JavaScript - no frameworks, no buil
 
 ## Future Plans
 
-While maintaining the simplicity of a single HTML file, future enhancements may include:
+While always maintaining the simplicity of a single HTML file, future enhancements may include:
 
 - Local storage for saving snippets
 - Multiple tabs for working on several snippets
 - Enhanced console output with interactive objects
 - Find/Replace functionality
 - Export/save code to file
+- Wider choice of themes
+- Customizable keyboard shortcuts
+- Localization
+- Other language support (Python, Go, etc.)
 
 ## License
 
