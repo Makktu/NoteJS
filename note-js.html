@@ -85,6 +85,12 @@
       button.clear:hover {
         background-color: #8c4c5c;
       }
+      button.about {
+        background-color: #4b5a34;
+      }
+      button.about:hover {
+        background-color: #5a6a44;
+      }
       .container {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -244,6 +250,71 @@
         background-color: #e8e8e8;
       }
 
+      /* Modal styles */
+      .modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+      }
+      .modal {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #2b2b2b;
+        color: #a9b7c6;
+        border: 1px solid #555;
+        border-radius: 5px;
+        padding: 20px;
+        max-width: 500px;
+        width: 90%;
+        z-index: 1001;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      }
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+      .modal-title {
+        margin: 0;
+        font-size: 1.3rem;
+      }
+      .modal-close {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: #a9b7c6;
+        padding: 0;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: color 0.2s;
+      }
+      .modal-close:hover {
+        color: #e8e8e8;
+      }
+      .modal-body {
+        line-height: 1.5;
+      }
+      .modal-body p {
+        margin-bottom: 10px;
+      }
+      .modal-body .creator {
+        font-style: italic;
+        font-size: 0.7rem;
+        margin-top: 15px;
+        text-align: right;
+      }
       /* Set max-width for CodeMirror content based on character count */
       .CodeMirror-line {
         /* This width is approximately 78 characters in monospace font */
@@ -360,6 +431,7 @@
       <div class="buttons">
         <button id="run">Run</button>
         <button class="clear" id="clear">Clear Output</button>
+        <button class="about" id="about">About</button>
       </div>
     </div>
     <div class="container">
@@ -401,6 +473,22 @@
           </select>
         </div>
         <div class="copy-button output-copy">📋</div>
+      </div>
+    </div>
+
+    <!-- Modal for about information -->
+    <div class="modal-overlay" id="modal-overlay">
+      <div class="modal">
+        <div class="modal-header">
+          <h2 class="modal-title">About NoteJS</h2>
+          <button class="modal-close" id="modal-close">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p>NoteJS is a simple, in-browser JavaScript editor and runner. The app is made entirely in vanilla JavaScript, HTML, and CSS - all contained in a single file.</p>
+          <p>It provides a basic, uncluttered interface for writing and executing JavaScript code. Features include syntax highlighting, code completion, and a console for output.</p>
+          <p class="creator">version: 1.0</p>
+          <p class="creator"><a style="color: white;" href="https://github.com/Makktu/NoteJS" target="_blank">view project on GitHub</a></p>
+        </div>
       </div>
     </div>
 
@@ -458,6 +546,9 @@ console.log(doubled);
       const outputDiv = document.getElementById('output');
       const runBtn = document.getElementById('run');
       const clearBtn = document.getElementById('clear');
+      const aboutBtn = document.getElementById('about');
+      const modalOverlay = document.getElementById('modal-overlay');
+      const modalCloseBtn = document.getElementById('modal-close');
       let editor;
 
       // Set platform-specific keyboard shortcut text
@@ -933,6 +1024,30 @@ console.log(doubled);
       autocompleteToggle.addEventListener('change', function() {
         // Save preference to localStorage
         localStorage.setItem('notejs-autocomplete', this.checked);
+      });
+
+      // About button functionality
+      aboutBtn.addEventListener('click', () => {
+        modalOverlay.style.display = 'flex';
+      });
+
+      // Modal close button functionality
+      modalCloseBtn.addEventListener('click', () => {
+        modalOverlay.style.display = 'none';
+      });
+
+      // Close modal when clicking outside
+      modalOverlay.addEventListener('click', (event) => {
+        if (event.target === modalOverlay) {
+          modalOverlay.style.display = 'none';
+        }
+      });
+
+      // Close modal with Escape key
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && modalOverlay.style.display === 'flex') {
+          modalOverlay.style.display = 'none';
+        }
       });
 
       // Run the code initially
