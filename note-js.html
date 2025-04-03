@@ -1052,6 +1052,20 @@ console.log(doubled);
 
       // Run the code initially
       setTimeout(runCode, 100); // Small delay to ensure editor is fully loaded
+
+      // Add confirmation dialog when user tries to quit with code in the editor
+      window.onbeforeunload = function(e) {
+        // Get the code from the editor
+        const code = editor ? editor.getValue() : document.getElementById('fallbackEditor').value;
+        
+        // Check if there's code in the editor (ignoring whitespace)
+        if (code && code.trim() !== '') {
+          // Standard way to show a confirmation dialog when closing the page
+          const confirmMessage = 'Really Quit? You have code in the code pane.';
+          e.returnValue = confirmMessage; // For Chrome, Firefox, IE
+          return confirmMessage; // For Safari
+        }
+      };
     </script>
   </body>
 </html>
