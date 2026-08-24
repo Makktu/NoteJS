@@ -6,98 +6,663 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📝</text></svg>">
     <title>NoteJS</title>
     <style>
+      :root, body[data-theme="darcula"] {
+        --bg-app: #2b2b2b;
+        --bg-header: #3c3f41;
+        --bg-panel: #2b2b2b;
+        --bg-badge: #242424;
+        --bg-control: #3c3f41;
+        --bg-control-hover: #4c5052;
+        --border-color: #555555;
+        --text-main: #a9b7c6;
+        --text-muted: #8fa3b0;
+        --text-bright: #e8e8e8;
+        --btn-primary-bg: #365880;
+        --btn-primary-hover: #4c708c;
+        --btn-file-bg: #4a4e52;
+        --btn-file-hover: #5c6166;
+        --btn-save-bg: #2d6a4f;
+        --btn-save-hover: #388663;
+        --btn-clear-bg: #72404c;
+        --btn-clear-hover: #8c4c5c;
+        --btn-about-bg: #4b5a34;
+        --btn-about-hover: #5a6a44;
+        --toggle-off: #555555;
+        --toggle-on: #365880;
+        --modal-bg: #2b2b2b;
+        --modal-overlay: rgba(0, 0, 0, 0.6);
+        --toast-bg: #25282a;
+        --out-log: #a9b7c6;
+        --out-err: #ff5370;
+        --out-warn: #ffcb6b;
+        --dirty-dot: #ffb74d;
+        --hint-bg: #2b2b2b;
+        --hint-border: #555555;
+        --hint-active-bg: #365880;
+        --hint-user: #ffcb6b;
+      }
+
+      /* Night Owl (True Dark) */
+      body[data-theme="night-owl"] {
+        --bg-app: #011627;
+        --bg-header: #0b2942;
+        --bg-panel: #011627;
+        --bg-badge: #01111d;
+        --bg-control: #0b2942;
+        --bg-control-hover: #143e63;
+        --border-color: #1d3b53;
+        --text-main: #d6deeb;
+        --text-muted: #637777;
+        --text-bright: #ffffff;
+        --btn-primary-bg: #1f6feb;
+        --btn-primary-hover: #388bfd;
+        --btn-file-bg: #143e63;
+        --btn-file-hover: #1d5282;
+        --btn-save-bg: #22a06b;
+        --btn-save-hover: #2ec282;
+        --btn-clear-bg: #822736;
+        --btn-clear-hover: #a13244;
+        --btn-about-bg: #5f458e;
+        --btn-about-hover: #7354ab;
+        --toggle-off: #1d3b53;
+        --toggle-on: #7e57c2;
+        --modal-bg: #011627;
+        --modal-overlay: rgba(0, 8, 16, 0.75);
+        --toast-bg: #0b2942;
+        --out-log: #d6deeb;
+        --out-err: #ff5874;
+        --out-warn: #ecc48d;
+        --dirty-dot: #ecc48d;
+        --hint-bg: #011627;
+        --hint-border: #1d3b53;
+        --hint-active-bg: #1d3b53;
+        --hint-user: #ecc48d;
+      }
+
+      /* Material */
+      body[data-theme="material"] {
+        --bg-app: #263238;
+        --bg-header: #1e272c;
+        --bg-panel: #263238;
+        --bg-badge: #192125;
+        --bg-control: #1e272c;
+        --bg-control-hover: #2c3940;
+        --border-color: #37474f;
+        --text-main: #eeffff;
+        --text-muted: #80cbc4;
+        --text-bright: #ffffff;
+        --btn-primary-bg: #00838f;
+        --btn-primary-hover: #0097a7;
+        --btn-file-bg: #37474f;
+        --btn-file-hover: #455a64;
+        --btn-save-bg: #2e7d32;
+        --btn-save-hover: #388e3c;
+        --btn-clear-bg: #c62828;
+        --btn-clear-hover: #d32f2f;
+        --btn-about-bg: #455a64;
+        --btn-about-hover: #546e7a;
+        --toggle-off: #37474f;
+        --toggle-on: #00838f;
+        --modal-bg: #263238;
+        --modal-overlay: rgba(10, 15, 18, 0.7);
+        --toast-bg: #1e272c;
+        --out-log: #eeffff;
+        --out-err: #ff5370;
+        --out-warn: #ffcb6b;
+        --dirty-dot: #ffcb6b;
+        --hint-bg: #263238;
+        --hint-border: #37474f;
+        --hint-active-bg: #00838f;
+        --hint-user: #ffcb6b;
+      }
+
+      /* Dracula */
+      body[data-theme="dracula"] {
+        --bg-app: #282a36;
+        --bg-header: #1e1f29;
+        --bg-panel: #282a36;
+        --bg-badge: #191a22;
+        --bg-control: #1e1f29;
+        --bg-control-hover: #343746;
+        --border-color: #44475a;
+        --text-main: #f8f8f2;
+        --text-muted: #6272a4;
+        --text-bright: #ffffff;
+        --btn-primary-bg: #6272a4;
+        --btn-primary-hover: #7b8ebd;
+        --btn-file-bg: #383a4c;
+        --btn-file-hover: #44475a;
+        --btn-save-bg: #287a48;
+        --btn-save-hover: #339c5c;
+        --btn-clear-bg: #993344;
+        --btn-clear-hover: #b83d52;
+        --btn-about-bg: #bd93f9;
+        --btn-about-hover: #caa5fa;
+        --toggle-off: #44475a;
+        --toggle-on: #bd93f9;
+        --modal-bg: #282a36;
+        --modal-overlay: rgba(15, 16, 22, 0.7);
+        --toast-bg: #1e1f29;
+        --out-log: #f8f8f2;
+        --out-err: #ff5555;
+        --out-warn: #f1fa8c;
+        --dirty-dot: #f1fa8c;
+        --hint-bg: #282a36;
+        --hint-border: #44475a;
+        --hint-active-bg: #44475a;
+        --hint-user: #f1fa8c;
+      }
+
+      /* Monokai */
+      body[data-theme="monokai"] {
+        --bg-app: #272822;
+        --bg-header: #1e1f1c;
+        --bg-panel: #272822;
+        --bg-badge: #171815;
+        --bg-control: #1e1f1c;
+        --bg-control-hover: #34352d;
+        --border-color: #3e3d32;
+        --text-main: #f8f8f2;
+        --text-muted: #75715e;
+        --text-bright: #ffffff;
+        --btn-primary-bg: #66d9ef;
+        --btn-primary-hover: #8ae2f2;
+        --btn-file-bg: #3e3d32;
+        --btn-file-hover: #545344;
+        --btn-save-bg: #38761d;
+        --btn-save-hover: #469225;
+        --btn-clear-bg: #801d3a;
+        --btn-clear-hover: #9c2447;
+        --btn-about-bg: #fd971f;
+        --btn-about-hover: #feab47;
+        --toggle-off: #3e3d32;
+        --toggle-on: #a6e22e;
+        --modal-bg: #272822;
+        --modal-overlay: rgba(12, 13, 11, 0.7);
+        --toast-bg: #1e1f1c;
+        --out-log: #f8f8f2;
+        --out-err: #f92672;
+        --out-warn: #e6db74;
+        --dirty-dot: #e6db74;
+        --hint-bg: #272822;
+        --hint-border: #3e3d32;
+        --hint-active-bg: #3e3d32;
+        --hint-user: #e6db74;
+      }
+
+      /* Nord */
+      body[data-theme="nord"] {
+        --bg-app: #2e3440;
+        --bg-header: #242933;
+        --bg-panel: #2e3440;
+        --bg-badge: #1f232b;
+        --bg-control: #242933;
+        --bg-control-hover: #3b4252;
+        --border-color: #434c5e;
+        --text-main: #d8dee9;
+        --text-muted: #616e88;
+        --text-bright: #eceff4;
+        --btn-primary-bg: #5e81ac;
+        --btn-primary-hover: #81a1c1;
+        --btn-file-bg: #3b4252;
+        --btn-file-hover: #434c5e;
+        --btn-save-bg: #436652;
+        --btn-save-hover: #517b63;
+        --btn-clear-bg: #874149;
+        --btn-clear-hover: #a34e58;
+        --btn-about-bg: #4c566a;
+        --btn-about-hover: #5a667e;
+        --toggle-off: #434c5e;
+        --toggle-on: #88c0d0;
+        --modal-bg: #2e3440;
+        --modal-overlay: rgba(18, 21, 26, 0.7);
+        --toast-bg: #242933;
+        --out-log: #d8dee9;
+        --out-err: #bf616a;
+        --out-warn: #ebcb8b;
+        --dirty-dot: #ebcb8b;
+        --hint-bg: #2e3440;
+        --hint-border: #434c5e;
+        --hint-active-bg: #3b4252;
+        --hint-user: #ebcb8b;
+      }
+
+      /* Solarized Dark */
+      body[data-theme="solarized"] {
+        --bg-app: #002b36;
+        --bg-header: #073642;
+        --bg-panel: #002b36;
+        --bg-badge: #001f27;
+        --bg-control: #073642;
+        --bg-control-hover: #0c4756;
+        --border-color: #0d4e5f;
+        --text-main: #839496;
+        --text-muted: #586e75;
+        --text-bright: #93a1a1;
+        --btn-primary-bg: #268bd2;
+        --btn-primary-hover: #3d9de0;
+        --btn-file-bg: #073642;
+        --btn-file-hover: #0d4e5f;
+        --btn-save-bg: #2aa198;
+        --btn-save-hover: #35b8ae;
+        --btn-clear-bg: #a82421;
+        --btn-clear-hover: #c42b27;
+        --btn-about-bg: #6c71c4;
+        --btn-about-hover: #8085d6;
+        --toggle-off: #0d4e5f;
+        --toggle-on: #268bd2;
+        --modal-bg: #002b36;
+        --modal-overlay: rgba(0, 18, 23, 0.75);
+        --toast-bg: #073642;
+        --out-log: #839496;
+        --out-err: #dc322f;
+        --out-warn: #b58900;
+        --dirty-dot: #b58900;
+        --hint-bg: #002b36;
+        --hint-border: #0d4e5f;
+        --hint-active-bg: #073642;
+        --hint-user: #b58900;
+      }
+
+      /* Tomorrow Night Bright */
+      body[data-theme="tomorrow-night-bright"] {
+        --bg-app: #000000;
+        --bg-header: #1a1a1a;
+        --bg-panel: #000000;
+        --bg-badge: #111111;
+        --bg-control: #1a1a1a;
+        --bg-control-hover: #2c2c2c;
+        --border-color: #333333;
+        --text-main: #eaeaea;
+        --text-muted: #707880;
+        --text-bright: #ffffff;
+        --btn-primary-bg: #4271ae;
+        --btn-primary-hover: #5685c4;
+        --btn-file-bg: #262626;
+        --btn-file-hover: #383838;
+        --btn-save-bg: #2d6a4f;
+        --btn-save-hover: #388663;
+        --btn-clear-bg: #82282c;
+        --btn-clear-hover: #a13237;
+        --btn-about-bg: #5f4a8b;
+        --btn-about-hover: #735aa6;
+        --toggle-off: #333333;
+        --toggle-on: #4271ae;
+        --modal-bg: #0d0d0d;
+        --modal-overlay: rgba(0, 0, 0, 0.8);
+        --toast-bg: #1a1a1a;
+        --out-log: #eaeaea;
+        --out-err: #d54e53;
+        --out-warn: #e7c547;
+        --dirty-dot: #e7c547;
+        --hint-bg: #111111;
+        --hint-border: #333333;
+        --hint-active-bg: #262626;
+        --hint-user: #e7c547;
+      }
+
+      /* Ambiance */
+      body[data-theme="ambiance"] {
+        --bg-app: #202020;
+        --bg-header: #2c2c2c;
+        --bg-panel: #202020;
+        --bg-badge: #181818;
+        --bg-control: #2c2c2c;
+        --bg-control-hover: #3d3d3d;
+        --border-color: #444444;
+        --text-main: #e6e1dc;
+        --text-muted: #7d7d7d;
+        --text-bright: #ffffff;
+        --btn-primary-bg: #4d5d43;
+        --btn-primary-hover: #5e7052;
+        --btn-file-bg: #3a3a3a;
+        --btn-file-hover: #4c4c4c;
+        --btn-save-bg: #355e3b;
+        --btn-save-hover: #427549;
+        --btn-clear-bg: #743a36;
+        --btn-clear-hover: #8f4742;
+        --btn-about-bg: #634f3b;
+        --btn-about-hover: #7b6249;
+        --toggle-off: #444444;
+        --toggle-on: #5e7052;
+        --modal-bg: #202020;
+        --modal-overlay: rgba(10, 10, 10, 0.7);
+        --toast-bg: #2c2c2c;
+        --out-log: #e6e1dc;
+        --out-err: #da4939;
+        --out-warn: #cc7833;
+        --dirty-dot: #cc7833;
+        --hint-bg: #202020;
+        --hint-border: #444444;
+        --hint-active-bg: #3a3a3a;
+        --hint-user: #cc7833;
+      }
+
+      /* Eclipse Light */
+      body[data-theme="eclipse"] {
+        --bg-app: #f4f6f8;
+        --bg-header: #e0e4e8;
+        --bg-panel: #ffffff;
+        --bg-badge: #ffffff;
+        --bg-control: #ffffff;
+        --bg-control-hover: #e8ecf0;
+        --border-color: #c0c6cc;
+        --text-main: #24292e;
+        --text-muted: #586069;
+        --text-bright: #1b1f23;
+        --btn-primary-bg: #0366d6;
+        --btn-primary-hover: #0255b3;
+        --btn-file-bg: #e1e4e8;
+        --btn-file-hover: #d1d5da;
+        --btn-save-bg: #28a745;
+        --btn-save-hover: #22863a;
+        --btn-clear-bg: #d73a49;
+        --btn-clear-hover: #cb2431;
+        --btn-about-bg: #6f42c1;
+        --btn-about-hover: #5a32a3;
+        --toggle-off: #d1d5da;
+        --toggle-on: #0366d6;
+        --modal-bg: #ffffff;
+        --modal-overlay: rgba(0, 0, 0, 0.45);
+        --toast-bg: #ffffff;
+        --out-log: #24292e;
+        --out-err: #d73a49;
+        --out-warn: #b08800;
+        --dirty-dot: #e36209;
+        --hint-bg: #ffffff;
+        --hint-border: #c0c6cc;
+        --hint-active-bg: #0366d6;
+        --hint-user: #b08800;
+      }
+
+      /* IntelliJ Light */
+      body[data-theme="idea"] {
+        --bg-app: #f2f2f2;
+        --bg-header: #e6e6e6;
+        --bg-panel: #ffffff;
+        --bg-badge: #ffffff;
+        --bg-control: #ffffff;
+        --bg-control-hover: #eaeaea;
+        --border-color: #c4c4c4;
+        --text-main: #222222;
+        --text-muted: #666666;
+        --text-bright: #000000;
+        --btn-primary-bg: #3574f0;
+        --btn-primary-hover: #2660d5;
+        --btn-file-bg: #dedede;
+        --btn-file-hover: #cecece;
+        --btn-save-bg: #368a48;
+        --btn-save-hover: #2c723a;
+        --btn-clear-bg: #cf3341;
+        --btn-clear-hover: #b82834;
+        --btn-about-bg: #70539c;
+        --btn-about-hover: #5c4382;
+        --toggle-off: #c4c4c4;
+        --toggle-on: #3574f0;
+        --modal-bg: #ffffff;
+        --modal-overlay: rgba(0, 0, 0, 0.45);
+        --toast-bg: #ffffff;
+        --out-log: #222222;
+        --out-err: #cf3341;
+        --out-warn: #b87700;
+        --dirty-dot: #d96c00;
+        --hint-bg: #ffffff;
+        --hint-border: #c4c4c4;
+        --hint-active-bg: #3574f0;
+        --hint-user: #b87700;
+      }
+
       body {
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         margin: 0;
         padding: 0;
-        background-color: #2b2b2b;
-        color: #a9b7c6;
+        background-color: var(--bg-app);
+        color: var(--text-main);
         height: 100vh;
         display: flex;
         flex-direction: column;
         overflow: hidden;
+        transition: background-color 0.2s ease, color 0.2s ease;
       }
+
       .header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        background-color: #3c3f41;
-        padding: 8px 16px;
-        border-bottom: 1px solid #555;
+        background-color: var(--bg-header);
+        padding: 6px 16px;
+        border-bottom: 1px solid var(--border-color);
         flex-shrink: 0;
         z-index: 100;
+        gap: 12px;
+        min-height: 48px;
+        box-sizing: border-box;
+        transition: background-color 0.2s ease, border-color 0.2s ease;
       }
+
+      .header-left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-shrink: 0;
+      }
+
       .logo-container {
         margin-left: -20px;
         display: flex;
         align-items: center;
         height: 100%;
       }
-      /* .logo {
-        margin-right: 10px;
-      } */
-      h1 {
-        margin: 0;
-        font-size: 1.5rem;
-        color: #a9b7c6;
+
+      .logo-rect {
+        fill: var(--bg-badge);
+        transition: fill 0.2s ease;
       }
+
+      .logo-text {
+        fill: var(--text-bright);
+        transition: fill 0.2s ease;
+      }
+
+      h1, h2 {
+        margin: 0;
+        color: var(--text-bright);
+        transition: color 0.2s ease;
+      }
+
       .theme-picker {
-        margin-left: 15px;
+        margin-left: 10px;
         display: flex;
         align-items: center;
       }
-      .theme-picker select {
-        background-color: #3c3f41;
-        color: #a9b7c6;
-        border: 1px solid #555;
+
+      .theme-picker select,
+      .font-size-picker select {
+        background-color: var(--bg-control);
+        color: var(--text-main);
+        border: 1px solid var(--border-color);
         border-radius: 4px;
         padding: 4px 8px;
-        font-size: 14px;
+        font-size: 13px;
         cursor: pointer;
         outline: none;
+        height: 30px;
+        transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
       }
-      .theme-picker select:hover {
-        border-color: #6c6c6c;
+
+      .theme-picker select:hover,
+      .font-size-picker select:hover {
+        border-color: var(--btn-primary-hover);
+        background-color: var(--bg-control-hover);
       }
-      .theme-picker select:focus {
-        border-color: #4c708c;
+
+      .theme-picker select:focus,
+      .font-size-picker select:focus {
+        border-color: var(--btn-primary-bg);
       }
-      .buttons {
+
+      .file-info-badge {
         display: flex;
-        gap: 10px;
+        align-items: center;
+        background-color: var(--bg-badge);
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        padding: 4px 10px;
+        font-size: 13px;
+        color: var(--text-bright);
+        height: 20px;
+        user-select: none;
+        transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
       }
+
+      .file-info-badge .file-icon {
+        margin-right: 6px;
+        font-size: 12px;
+      }
+
+      .file-info-badge .file-name {
+        font-weight: 500;
+        max-width: 140px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .file-info-badge .dirty-indicator {
+        color: var(--dirty-dot);
+        margin-left: 5px;
+        font-size: 10px;
+        display: none;
+      }
+
+      .file-info-badge .dirty-indicator.active {
+        display: inline-block;
+      }
+
+      .file-info-badge .file-status {
+        margin-left: 6px;
+        font-size: 11px;
+        color: var(--text-muted);
+        white-space: nowrap;
+      }
+
+      .header-center {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .file-buttons {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+      }
+
       button {
-        padding: 8px 16px;
-        background-color: #365880;
-        color: #e8e8e8;
+        padding: 6px 14px;
+        background-color: var(--btn-primary-bg);
+        color: #ffffff;
         border: none;
         border-radius: 4px;
         cursor: pointer;
-        font-size: 14px;
-        transition: background-color 0.2s;
+        font-size: 13px;
+        height: 30px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.2s ease, transform 0.1s ease;
+        box-sizing: border-box;
       }
+
       button:hover {
-        background-color: #4c708c;
+        background-color: var(--btn-primary-hover);
       }
+
+      button.btn-file {
+        background-color: var(--btn-file-bg);
+        color: var(--text-bright);
+        padding: 6px 12px;
+        font-size: 13px;
+        height: 30px;
+      }
+
+      button.btn-file:hover {
+        background-color: var(--btn-file-hover);
+      }
+
+      button.btn-save {
+        background-color: var(--btn-save-bg);
+        color: #ffffff;
+        padding: 6px 14px;
+        font-size: 13px;
+        font-weight: 600;
+        height: 30px;
+      }
+
+      button.btn-save:hover {
+        background-color: var(--btn-save-hover);
+      }
+
       button.clear {
-        background-color: #72404c;
+        background-color: var(--btn-clear-bg);
+        color: #ffffff;
       }
+
       button.clear:hover {
-        background-color: #8c4c5c;
+        background-color: var(--btn-clear-hover);
       }
+
       button.about {
-        background-color: #4b5a34;
+        background-color: var(--btn-about-bg);
+        color: #ffffff;
       }
+
       button.about:hover {
-        background-color: #5a6a44;
+        background-color: var(--btn-about-hover);
       }
+
+      .header-right {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .autosave-container {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        color: var(--text-main);
+        user-select: none;
+        height: 30px;
+        padding: 0 4px;
+      }
+
+      .autosave-container label.autosave-label {
+        cursor: pointer;
+      }
+
+      .toolbar-divider {
+        width: 1px;
+        height: 20px;
+        background-color: var(--border-color);
+        margin: 0 2px;
+      }
+
+      .buttons {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+
       .container {
         display: grid;
         grid-template-columns: 1fr 1fr;
         flex: 1;
         overflow: hidden;
-        min-height: 0; /* Important for Firefox */
+        min-height: 0;
       }
+
       .code-area,
       .output-area {
         display: flex;
@@ -105,25 +670,32 @@
         padding: 16px;
         box-sizing: border-box;
         overflow: hidden;
-        min-height: 0; /* Important for Firefox */
-        position: relative; /* Add position relative to contain the absolute positioned copy-button */
+        min-height: 0;
+        position: relative;
+        background-color: var(--bg-app);
+        transition: background-color 0.2s ease;
       }
+
       .code-area {
-        border-right: 1px solid #555;
+        border-right: 1px solid var(--border-color);
       }
+
       h2 {
         margin-top: 0;
         margin-bottom: 10px;
-        color: #a9b7c6;
+        color: var(--text-bright);
         font-size: 1.2rem;
       }
+
       #editor {
         flex-grow: 1;
-        border: 1px solid #555;
+        border: 1px solid var(--border-color);
         border-radius: 5px;
         overflow: hidden;
         display: flex;
         height: 100%;
+        background-color: var(--bg-panel);
+        transition: border-color 0.2s ease, background-color 0.2s ease;
       }
 
       /* Make CodeMirror fill the available space */
@@ -137,8 +709,8 @@
         position: absolute;
         top: 10px;
         right: 25px;
-        background-color: #3c3f41;
-        color: #a9b7c6;
+        background-color: var(--bg-control);
+        color: var(--text-main);
         width: 30px;
         height: 30px;
         border-radius: 4px;
@@ -147,12 +719,13 @@
         align-items: center;
         cursor: pointer;
         z-index: 10;
-        border: 1px solid #555;
-        transition: background-color 0.2s;
+        border: 1px solid var(--border-color);
+        transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
       }
       
       .copy-button:hover {
-        background-color: #4c708c;
+        background-color: var(--btn-primary-bg);
+        color: #ffffff;
       }
 
       /* Font size picker styles */
@@ -163,26 +736,6 @@
         z-index: 10;
       }
 
-      .font-size-picker select {
-        background-color: #3c3f41;
-        color: #a9b7c6;
-        border: 1px solid #555;
-        border-radius: 4px;
-        padding: 4px 8px;
-        font-size: 14px;
-        cursor: pointer;
-        outline: none;
-        height: 30px;
-      }
-
-      .font-size-picker select:hover {
-        border-color: #6c6c6c;
-      }
-
-      .font-size-picker select:focus {
-        border-color: #4c708c;
-      }
-
       /* Toggle switch styles */
       .toggle-container {
         position: absolute;
@@ -191,12 +744,13 @@
         z-index: 10;
         display: flex;
         align-items: center;
-        height: 30px; /* Match the height of the font picker */
+        height: 30px;
+        color: var(--text-main);
       }
 
       .toggle-container label {
         margin-right: 8px;
-        color: #a9b7c6;
+        color: var(--text-main);
         font-size: 14px;
         user-select: none;
         display: flex;
@@ -208,7 +762,7 @@
         display: inline-block;
         width: 40px;
         height: 20px;
-        margin-top: 1px; /* Fine-tune vertical alignment */
+        margin-top: 1px;
       }
 
       .toggle-switch input {
@@ -224,7 +778,7 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background-color: #555;
+        background-color: var(--toggle-off);
         transition: .4s;
         border-radius: 20px;
       }
@@ -236,18 +790,18 @@
         width: 14px;
         left: 3px;
         bottom: 3px;
-        background-color: #a9b7c6;
+        background-color: var(--text-main);
         transition: .4s;
         border-radius: 50%;
       }
 
       input:checked + .toggle-slider {
-        background-color: #365880;
+        background-color: var(--toggle-on);
       }
 
       input:checked + .toggle-slider:before {
         transform: translateX(20px);
-        background-color: #e8e8e8;
+        background-color: var(--text-bright);
       }
 
       /* Modal styles */
@@ -258,7 +812,7 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background-color: rgba(0, 0, 0, 0.5);
+        background-color: var(--modal-overlay);
         z-index: 1000;
       }
       .modal {
@@ -266,15 +820,16 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        background-color: #2b2b2b;
-        color: #a9b7c6;
-        border: 1px solid #555;
+        background-color: var(--modal-bg);
+        color: var(--text-main);
+        border: 1px solid var(--border-color);
         border-radius: 5px;
         padding: 20px;
         max-width: 500px;
         width: 90%;
         z-index: 1001;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+        transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
       }
       .modal-header {
         display: flex;
@@ -285,13 +840,14 @@
       .modal-title {
         margin: 0;
         font-size: 1.3rem;
+        color: var(--text-bright);
       }
       .modal-close {
         background: none;
         border: none;
         font-size: 1.5rem;
         cursor: pointer;
-        color: #a9b7c6;
+        color: var(--text-main);
         padding: 0;
         width: 30px;
         height: 30px;
@@ -301,7 +857,7 @@
         transition: color 0.2s;
       }
       .modal-close:hover {
-        color: #e8e8e8;
+        color: var(--text-bright);
       }
       .modal-body {
         line-height: 1.5;
@@ -315,9 +871,12 @@
         margin-top: 15px;
         text-align: right;
       }
+      a.theme-link {
+        color: var(--btn-primary-bg);
+      }
+
       /* Set max-width for CodeMirror content based on character count */
       .CodeMirror-line {
-        /* This width is approximately 78 characters in monospace font */
         max-width: 78ch;
       }
 
@@ -325,26 +884,27 @@
         flex-grow: 1;
         padding: 15px;
         font-family: 'Consolas', 'Courier New', monospace;
-        background-color: #2b2b2b;
-        color: #a9b7c6;
-        border: 1px solid #555;
+        background-color: var(--bg-panel);
+        color: var(--out-log);
+        border: 1px solid var(--border-color);
         border-radius: 5px;
         overflow-y: auto;
+        transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
       }
       .console-log {
-        color: #a9b7c6;
+        color: var(--out-log);
         margin-bottom: 5px;
       }
       .console-error {
-        color: #ff5370;
+        color: var(--out-err);
         margin-bottom: 5px;
       }
       .console-warn {
-        color: #ffcb6b;
+        color: var(--out-warn);
         margin-bottom: 5px;
       }
       .syntax-error {
-        color: #ff5370;
+        color: var(--out-err);
         font-weight: bold;
         margin-bottom: 5px;
       }
@@ -360,8 +920,8 @@
         padding: 15px;
         font-family: 'Consolas', 'Courier New', monospace;
         font-size: 16px;
-        background-color: #2b2b2b;
-        color: #a9b7c6;
+        background-color: var(--bg-panel);
+        color: var(--text-main);
         border: none;
         resize: none;
         tab-size: 2;
@@ -378,9 +938,9 @@
         margin: 0;
         padding: 0;
         border-radius: 3px;
-        border: 1px solid #555;
-        background: #2b2b2b;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        border: 1px solid var(--hint-border);
+        background: var(--hint-bg);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.45);
         max-height: 20em;
         overflow-y: auto;
         font-family: 'Consolas', 'Courier New', monospace;
@@ -390,50 +950,237 @@
         margin: 0;
         padding: 5px 10px;
         white-space: pre;
-        color: #a9b7c6;
+        color: var(--text-main);
         cursor: pointer;
       }
 
       li.CodeMirror-hint-active {
-        background: #365880;
-        color: #ffffff;
+        background: var(--hint-active-bg);
+        color: var(--text-bright);
       }
 
       /* Custom style for user-defined hints */
       .user-defined-hint {
-        color: #ffcb6b !important;
+        color: var(--hint-user) !important;
         font-style: italic;
+      }
+
+      /* Toast notification */
+      .toast {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        background-color: var(--toast-bg);
+        color: var(--text-bright);
+        padding: 10px 18px;
+        border-radius: 6px;
+        border: 1px solid var(--border-color);
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+        font-size: 13px;
+        z-index: 2000;
+        opacity: 0;
+        transform: translateY(12px);
+        transition: opacity 0.25s ease, transform 0.25s ease, background-color 0.2s ease, border-color 0.2s ease;
+        pointer-events: none;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .toast.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .toast.error {
+        border-color: var(--out-err);
+        color: var(--out-err);
+      }
+      .toast.success {
+        border-color: var(--btn-save-bg);
+        color: #74c69d;
+      }
+      .toast.info {
+        border-color: var(--btn-primary-bg);
+        color: var(--text-bright);
+      }
+
+      /* Custom scrollbars */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--bg-panel);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--border-color);
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: var(--text-muted);
+      }
+
+      /* Night Owl CodeMirror Theme */
+      .cm-s-night-owl.CodeMirror {
+        background: #011627;
+        color: #d6deeb;
+      }
+      .cm-s-night-owl div.CodeMirror-selected {
+        background: #1d3b53 !important;
+      }
+      .cm-s-night-owl .CodeMirror-line::selection,
+      .cm-s-night-owl .CodeMirror-line > span::selection,
+      .cm-s-night-owl .CodeMirror-line > span > span::selection {
+        background: #1d3b53;
+      }
+      .cm-s-night-owl .CodeMirror-line::-moz-selection,
+      .cm-s-night-owl .CodeMirror-line > span::-moz-selection,
+      .cm-s-night-owl .CodeMirror-line > span > span::-moz-selection {
+        background: #1d3b53;
+      }
+      .cm-s-night-owl .CodeMirror-gutters {
+        background: #011627;
+        border-right: 1px solid #0b2942;
+      }
+      .cm-s-night-owl .CodeMirror-guttermarker {
+        color: #82aaff;
+      }
+      .cm-s-night-owl .CodeMirror-guttermarker-subtle,
+      .cm-s-night-owl .CodeMirror-linenumber {
+        color: #4b6479;
+      }
+      .cm-s-night-owl .CodeMirror-cursor {
+        border-left: 2px solid #7e57c2 !important;
+      }
+      .cm-s-night-owl span.cm-comment {
+        color: #637777;
+        font-style: italic;
+      }
+      .cm-s-night-owl span.cm-atom,
+      .cm-s-night-owl span.cm-number {
+        color: #f78c6c;
+      }
+      .cm-s-night-owl span.cm-property,
+      .cm-s-night-owl span.cm-attribute {
+        color: #80cbc4;
+      }
+      .cm-s-night-owl span.cm-keyword {
+        color: #c792ea;
+        font-style: italic;
+      }
+      .cm-s-night-owl span.cm-string,
+      .cm-s-night-owl span.cm-string-2 {
+        color: #ecc48d;
+      }
+      .cm-s-night-owl span.cm-variable {
+        color: #d6deeb;
+      }
+      .cm-s-night-owl span.cm-variable-2 {
+        color: #addb67;
+      }
+      .cm-s-night-owl span.cm-variable-3,
+      .cm-s-night-owl span.cm-type {
+        color: #82aaff;
+      }
+      .cm-s-night-owl span.cm-def {
+        color: #82aaff;
+      }
+      .cm-s-night-owl span.cm-bracket {
+        color: #c792ea;
+      }
+      .cm-s-night-owl span.cm-tag {
+        color: #7fdbca;
+      }
+      .cm-s-night-owl span.cm-operator {
+        color: #c792ea;
+      }
+      .cm-s-night-owl span.cm-builtin {
+        color: #addb67;
+      }
+      .cm-s-night-owl span.cm-meta {
+        color: #ffcb8b;
+      }
+      .cm-s-night-owl span.cm-qualifier {
+        color: #addb67;
+      }
+      .cm-s-night-owl .CodeMirror-matchingbracket {
+        color: #ffeb95 !important;
+        border-bottom: 2px solid #ffeb95;
+      }
+      .cm-s-night-owl .CodeMirror-activeline-background {
+        background: rgba(0, 31, 63, 0.45);
+      }
+
+      @media (max-width: 960px) {
+        .header {
+          padding: 6px 10px;
+          gap: 6px;
+        }
+        .file-info-badge .file-name {
+          max-width: 90px;
+        }
+        button {
+          padding: 6px 10px;
+          font-size: 12px;
+        }
       }
     </style>
   </head>
   <body>
     <div class="header">
-      <div class="logo-container">
-        <svg width="150" height="34" viewBox="0 0 150 50" xmlns="http://www.w3.org/2000/svg" fill="none" style="transform: scale(1.1); transform-origin: left center;">
-          <rect width="150" height="50" fill="#2b2b2b" rx="8"/>
-          <text x="18" y="33" font-family="monospace" font-size="26" fill="#E0E0E0" font-weight="bold">Note{JS}</text>
-        </svg>
-        <div class="theme-picker">
-          <select id="theme-select">
-            <option value="darcula">Darcula</option>
-            <option value="ambiance">Ambiance</option>
-            <option value="material">Material</option>
-            <option value="dracula">Dracula</option>
-            <option value="monokai">Monokai</option>
-            <option value="nord">Nord</option>
-            <option value="solarized">Solarized</option>
-            <option value="tomorrow-night-bright">Tomorrow Night</option>
-            <option value="eclipse">Eclipse (Light)</option>
-            <option value="idea">IntelliJ (Light)</option>
-          </select>
+      <div class="header-left">
+        <div class="logo-container">
+          <svg width="150" height="34" viewBox="0 0 150 50" xmlns="http://www.w3.org/2000/svg" fill="none" style="transform: scale(1.1); transform-origin: left center;">
+            <rect width="150" height="50" class="logo-rect" rx="8"/>
+            <text x="18" y="33" font-family="monospace" font-size="26" class="logo-text" font-weight="bold">Note{JS}</text>
+          </svg>
+          <div class="theme-picker">
+            <select id="theme-select" title="Editor Theme">
+              <option value="darcula">Darcula</option>
+              <option value="night-owl">Night Owl (True Dark)</option>
+              <option value="material">Material</option>
+              <option value="dracula">Dracula</option>
+              <option value="monokai">Monokai</option>
+              <option value="nord">Nord</option>
+              <option value="solarized">Solarized</option>
+              <option value="tomorrow-night-bright">Tomorrow Night</option>
+              <option value="ambiance">Ambiance</option>
+              <option value="eclipse">Eclipse (Light)</option>
+              <option value="idea">IntelliJ (Light)</option>
+            </select>
+          </div>
+        </div>
+        <div class="file-info-badge" id="file-info-badge" title="Current File">
+          <span class="file-icon">📄</span>
+          <span class="file-name" id="file-name">untitled.js</span>
+          <span class="dirty-indicator" id="dirty-indicator" title="Unsaved changes">●</span>
+          <span class="file-status" id="file-status"></span>
         </div>
       </div>
-      <div class="buttons">
-        <button id="run" type="button">Run</button>
-        <button class="clear" id="clear" type="button">Clear Output</button>
-        <button class="about" id="about" type="button">About</button>
+      <div class="header-center">
+        <div class="file-buttons">
+          <button id="btn-new" class="btn-file" type="button" title="New File">New</button>
+          <button id="btn-open" class="btn-file" type="button" title="Open File (Cmd+O / Ctrl+O)">Open</button>
+          <button id="btn-save" class="btn-save" type="button" title="Save File (Cmd+S / Ctrl+S)">Save</button>
+          <button id="btn-save-as" class="btn-file" type="button" title="Save As... (Cmd+Shift+S / Ctrl+Shift+S)">Save As...</button>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="autosave-container" title="Automatically save file on edit when a file is open">
+          <label for="autosave-toggle" class="autosave-label">Autosave</label>
+          <label class="toggle-switch">
+            <input type="checkbox" id="autosave-toggle" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="toolbar-divider"></div>
+        <div class="buttons">
+          <button id="run" type="button">Run</button>
+          <button class="clear" id="clear" type="button">Clear Output</button>
+          <button class="about" id="about" type="button">About</button>
+        </div>
       </div>
     </div>
+    <input type="file" id="file-input" accept=".js,.mjs,.cjs,.json,.ts,.txt,text/javascript,text/plain" style="display: none;">
     <div class="container">
       <div class="code-area">
         <h2>Code</h2>
@@ -485,9 +1232,19 @@
         </div>
         <div class="modal-body">
           <p>NoteJS is a simple, in-browser JavaScript editor and runner. The app is made entirely in vanilla JavaScript, HTML, and CSS - all contained in a single file.</p>
-          <p>It provides a basic, uncluttered interface for writing and executing JavaScript code. Features include syntax highlighting, code completion, and a console for output.</p>
-          <p class="creator">version: 1.0</p>
-          <p class="creator"><a style="color: white;" href="https://github.com/Makktu/NoteJS" target="_blank">view project on GitHub</a></p>
+          <p>It provides a basic, uncluttered interface for writing and executing JavaScript code. Features include full-app cohesive themes (including Night Owl, Darcula, Material, Dracula, Monokai, Nord, Solarized, Tomorrow Night, Ambiance, Eclipse, and IntelliJ), syntax highlighting, code completion, a console for output, and full file save/open operations with native autosave.</p>
+          <p><strong>Keyboard Shortcuts:</strong></p>
+          <ul style="margin: 0 0 12px 20px; padding: 0; font-size: 0.9rem;">
+            <li><strong id="shortcut-run">Cmd/Ctrl+Enter</strong>: Run code</li>
+            <li><strong id="shortcut-save">Cmd/Ctrl+S</strong>: Save file</li>
+            <li><strong id="shortcut-saveas">Cmd/Ctrl+Shift+S</strong>: Save As...</li>
+            <li><strong id="shortcut-open">Cmd/Ctrl+O</strong>: Open file</li>
+            <li><strong>Tab</strong>: Indent or autocomplete</li>
+            <li><strong>Ctrl+Space</strong>: Show autocomplete</li>
+          </ul>
+          <p><strong>Autosave:</strong> When enabled in the toolbar and a file is opened or saved, changes are automatically saved directly to the file on disk as you type.</p>
+          <p class="creator">version: 1.2</p>
+          <p class="creator"><a class="theme-link" href="https://github.com/Makktu/NoteJS" target="_blank">view project on GitHub</a></p>
         </div>
       </div>
     </div>
@@ -549,11 +1306,335 @@ console.log(doubled);
       const aboutBtn = document.getElementById('about');
       const modalOverlay = document.getElementById('modal-overlay');
       const modalCloseBtn = document.getElementById('modal-close');
+
+      // File and autosave elements & state
+      const fileNameEl = document.getElementById('file-name');
+      const dirtyIndicatorEl = document.getElementById('dirty-indicator');
+      const fileStatusEl = document.getElementById('file-status');
+      const btnNew = document.getElementById('btn-new');
+      const btnOpen = document.getElementById('btn-open');
+      const btnSave = document.getElementById('btn-save');
+      const btnSaveAs = document.getElementById('btn-save-as');
+      const autosaveToggle = document.getElementById('autosave-toggle');
+      const fileInput = document.getElementById('file-input');
+
+      let currentFileHandle = null;
+      let currentFileName = null;
+      let lastSavedContent = initialCode;
+      let isDirty = false;
+      let isAutosaveEnabled = true;
+      let autosaveTimer = null;
+      let toastTimeout = null;
       let editor;
 
       // Set platform-specific keyboard shortcut text
       const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
-      runBtn.textContent = `Run (${isMac ? 'Cmd+Enter' : 'Ctrl+Enter'})`;
+      const modKey = isMac ? 'Cmd' : 'Ctrl';
+      runBtn.textContent = `Run (${modKey}+Enter)`;
+      if (btnSave) btnSave.title = `Save File (${modKey}+S)`;
+      if (btnSaveAs) btnSaveAs.title = `Save As... (${modKey}+Shift+S)`;
+      if (btnOpen) btnOpen.title = `Open File (${modKey}+O)`;
+      if (btnNew) btnNew.title = `New File`;
+
+      const shortcutRun = document.getElementById('shortcut-run');
+      if (shortcutRun) shortcutRun.textContent = `${modKey}+Enter`;
+      const shortcutSave = document.getElementById('shortcut-save');
+      if (shortcutSave) shortcutSave.textContent = `${modKey}+S`;
+      const shortcutSaveAs = document.getElementById('shortcut-saveas');
+      if (shortcutSaveAs) shortcutSaveAs.textContent = `${modKey}+Shift+S`;
+      const shortcutOpen = document.getElementById('shortcut-open');
+      if (shortcutOpen) shortcutOpen.textContent = `${modKey}+O`;
+
+      // Helper functions for editor abstraction, status, toast, and file operations
+      function getEditorContent() {
+        if (editor && typeof editor.getValue === 'function') {
+          return editor.getValue();
+        }
+        const fallback = document.getElementById('fallbackEditor');
+        return fallback ? fallback.value : '';
+      }
+
+      function setEditorContent(code) {
+        if (editor && typeof editor.setValue === 'function') {
+          editor.setValue(code);
+        } else {
+          const fallback = document.getElementById('fallbackEditor');
+          if (fallback) fallback.value = code;
+        }
+      }
+
+      function showToast(message, type = 'info') {
+        let toast = document.getElementById('toast-notification');
+        if (!toast) {
+          toast = document.createElement('div');
+          toast.id = 'toast-notification';
+          toast.className = 'toast';
+          document.body.appendChild(toast);
+        }
+        toast.textContent = message;
+        toast.className = `toast ${type} show`;
+        clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(() => {
+          toast.classList.remove('show');
+        }, 2500);
+      }
+
+      function flashSaveButton() {
+        if (!btnSave) return;
+        const originalText = btnSave.textContent;
+        btnSave.textContent = '✓ Saved';
+        btnSave.style.backgroundColor = '#1e7b4c';
+        setTimeout(() => {
+          btnSave.textContent = originalText;
+          btnSave.style.backgroundColor = '';
+        }, 1000);
+      }
+
+      function setDirtyState(dirty) {
+        isDirty = dirty;
+        if (dirtyIndicatorEl) {
+          dirtyIndicatorEl.classList.toggle('active', dirty);
+        }
+        const name = currentFileName || 'untitled.js';
+        if (fileNameEl) {
+          fileNameEl.textContent = name;
+        }
+        document.title = (dirty ? '● ' : '') + (currentFileName ? `${currentFileName} - NoteJS` : 'NoteJS');
+      }
+
+      function updateStatusText(text) {
+        if (fileStatusEl) {
+          fileStatusEl.textContent = text ? `• ${text}` : '';
+        }
+      }
+
+      function handleCodeChange() {
+        const code = getEditorContent();
+        const dirty = code !== lastSavedContent;
+        setDirtyState(dirty);
+
+        try {
+          localStorage.setItem('notejs-editor-draft', code);
+        } catch (e) {}
+
+        if (dirty) {
+          if (isAutosaveEnabled && currentFileHandle) {
+            clearTimeout(autosaveTimer);
+            updateStatusText('Editing...');
+            autosaveTimer = setTimeout(() => {
+              triggerAutosave();
+            }, 1000);
+          } else {
+            updateStatusText('Unsaved');
+          }
+        } else {
+          updateStatusText('Saved');
+        }
+      }
+
+      async function triggerAutosave() {
+        if (!currentFileHandle || !isAutosaveEnabled || !isDirty) return;
+        try {
+          updateStatusText('Autosaving...');
+          const writable = await currentFileHandle.createWritable();
+          const code = getEditorContent();
+          await writable.write(code);
+          await writable.close();
+          lastSavedContent = code;
+          setDirtyState(false);
+          const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+          updateStatusText(`Autosaved (${timeStr})`);
+        } catch (err) {
+          console.error('Autosave error:', err);
+          updateStatusText('Autosave error');
+          if (err.name === 'NotAllowedError') {
+            showToast('Autosave paused: Click Save to grant write permission', 'error');
+          }
+        }
+      }
+
+      async function saveFile() {
+        if (currentFileHandle) {
+          try {
+            updateStatusText('Saving...');
+            if (currentFileHandle.queryPermission) {
+              const perm = await currentFileHandle.queryPermission({ mode: 'readwrite' });
+              if (perm !== 'granted') {
+                const req = await currentFileHandle.requestPermission({ mode: 'readwrite' });
+                if (req !== 'granted') {
+                  showToast('Permission to save file was denied', 'error');
+                  updateStatusText('Permission denied');
+                  return false;
+                }
+              }
+            }
+            const writable = await currentFileHandle.createWritable();
+            const code = getEditorContent();
+            await writable.write(code);
+            await writable.close();
+            lastSavedContent = code;
+            setDirtyState(false);
+            const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            updateStatusText(`Saved (${timeStr})`);
+            showToast(`Saved to ${currentFileName}`, 'success');
+            flashSaveButton();
+            return true;
+          } catch (err) {
+            console.error('Save error:', err);
+            updateStatusText('Save failed');
+            if (err.name === 'NotAllowedError' || err.name === 'NotFoundError') {
+              return await saveFileAs();
+            }
+            showToast('Error saving file: ' + (err.message || 'Unknown error'), 'error');
+            return false;
+          }
+        } else {
+          return await saveFileAs();
+        }
+      }
+
+      async function saveFileAs() {
+        const code = getEditorContent();
+        if ('showSaveFilePicker' in window) {
+          try {
+            const suggestedName = currentFileName || 'script.js';
+            const handle = await window.showSaveFilePicker({
+              suggestedName: suggestedName,
+              types: [
+                {
+                  description: 'JavaScript File',
+                  accept: {
+                    'text/javascript': ['.js', '.mjs', '.cjs']
+                  }
+                },
+                {
+                  description: 'All Files',
+                  accept: {
+                    '*/*': ['.*']
+                  }
+                }
+              ]
+            });
+            if (!handle) return false;
+            updateStatusText('Saving...');
+            const writable = await handle.createWritable();
+            await writable.write(code);
+            await writable.close();
+            currentFileHandle = handle;
+            currentFileName = handle.name;
+            lastSavedContent = code;
+            setDirtyState(false);
+            const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            updateStatusText(`Saved (${timeStr})`);
+            showToast(`Saved as ${currentFileName}`, 'success');
+            flashSaveButton();
+            return true;
+          } catch (err) {
+            if (err.name === 'AbortError') return false;
+            console.error('Save As error:', err);
+            updateStatusText('Save failed');
+            showToast('Error saving file: ' + (err.message || 'Unknown error'), 'error');
+            return false;
+          }
+        } else {
+          // Fallback for browsers without File System Access API
+          try {
+            const defaultName = currentFileName || 'script.js';
+            const userChosen = prompt('Enter file name to save as:', defaultName);
+            if (userChosen === null) return false;
+            const finalName = userChosen.trim() || defaultName;
+            const fileName = finalName.includes('.') ? finalName : `${finalName}.js`;
+            const blob = new Blob([code], { type: 'text/javascript;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            setTimeout(() => URL.revokeObjectURL(url), 1000);
+
+            currentFileName = fileName;
+            lastSavedContent = code;
+            setDirtyState(false);
+            const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            updateStatusText(`Saved (${timeStr})`);
+            showToast(`Downloaded ${fileName}`, 'success');
+            flashSaveButton();
+            return true;
+          } catch (err) {
+            console.error('Fallback save error:', err);
+            showToast('Failed to save file', 'error');
+            return false;
+          }
+        }
+      }
+
+      async function openFile() {
+        if (isDirty) {
+          const proceed = confirm('You have unsaved changes. Do you want to open another file and discard them?');
+          if (!proceed) return;
+        }
+
+        if ('showOpenFilePicker' in window) {
+          try {
+            const [handle] = await window.showOpenFilePicker({
+              types: [
+                {
+                  description: 'JavaScript & Text Files',
+                  accept: {
+                    'text/javascript': ['.js', '.mjs', '.cjs'],
+                    'text/plain': ['.txt', '.json', '.ts', '.jsx', '.html', '.css']
+                  }
+                },
+                {
+                  description: 'All Files',
+                  accept: {
+                    '*/*': ['.*']
+                  }
+                }
+              ],
+              multiple: false
+            });
+            if (!handle) return;
+            const file = await handle.getFile();
+            const content = await file.text();
+            currentFileHandle = handle;
+            currentFileName = file.name;
+            setEditorContent(content);
+            lastSavedContent = content;
+            setDirtyState(false);
+            updateStatusText('Opened');
+            showToast(`Opened ${file.name}`, 'success');
+            if (isAutosaveEnabled) {
+              updateStatusText('Autosave ON');
+            }
+          } catch (err) {
+            if (err.name === 'AbortError') return;
+            console.error('Open file error:', err);
+            showToast('Error opening file: ' + (err.message || 'Unknown error'), 'error');
+          }
+        } else {
+          if (fileInput) {
+            fileInput.value = '';
+            fileInput.click();
+          }
+        }
+      }
+
+      function newFile() {
+        if (isDirty) {
+          const proceed = confirm('You have unsaved changes. Do you want to create a new file and discard them?');
+          if (!proceed) return;
+        }
+        currentFileHandle = null;
+        currentFileName = null;
+        setEditorContent(initialCode);
+        lastSavedContent = initialCode;
+        setDirtyState(false);
+        updateStatusText('');
+        showToast('Created new file', 'info');
+      }
 
       // Function to extract user-defined variables and functions from code
       function extractUserDefinedSymbols(code) {
@@ -654,12 +1735,35 @@ console.log(doubled);
         return true;
       }
 
+      // Helper function to apply theme across the entire app
+      function applyTheme(themeName) {
+        const effectiveTheme = themeName || 'darcula';
+        document.body.setAttribute('data-theme', effectiveTheme);
+        
+        if (editor && typeof editor.setOption === 'function') {
+          editor.setOption('theme', effectiveTheme);
+        }
+        
+        const themeSelectEl = document.getElementById('theme-select');
+        if (themeSelectEl && themeSelectEl.value !== effectiveTheme) {
+          themeSelectEl.value = effectiveTheme;
+        }
+        
+        try {
+          localStorage.setItem('notejs-theme', effectiveTheme);
+        } catch (e) {}
+      }
+
+      // Read saved theme before editor initialization
+      const savedTheme = localStorage.getItem('notejs-theme') || 'darcula';
+      applyTheme(savedTheme);
+
       // Initialize CodeMirror editor
       try {
         editor = CodeMirror(document.getElementById('editor'), {
           value: initialCode,
           mode: 'javascript',
-          theme: 'darcula',
+          theme: savedTheme,
           lineNumbers: true,
           autoCloseBrackets: true,
           matchBrackets: true,
@@ -672,6 +1776,12 @@ console.log(doubled);
           extraKeys: {
             'Ctrl-Enter': runCode,
             'Cmd-Enter': runCode,
+            'Ctrl-S': function (cm) { saveFile(); },
+            'Cmd-S': function (cm) { saveFile(); },
+            'Ctrl-Shift-S': function (cm) { saveFileAs(); },
+            'Cmd-Shift-S': function (cm) { saveFileAs(); },
+            'Ctrl-O': function (cm) { openFile(); },
+            'Cmd-O': function (cm) { openFile(); },
             Tab: function (cm) {
               // If something is selected, indent it
               if (cm.somethingSelected()) {
@@ -715,6 +1825,11 @@ console.log(doubled);
         `;
         document.head.appendChild(style);
 
+        // Listen for editor changes to track dirty state and trigger autosave
+        editor.on('change', function () {
+          handleCodeChange();
+        });
+
         // Setup autocompletion
         editor.on('keyup', function (cm, event) {
           // Don't activate for special keys
@@ -750,31 +1865,48 @@ console.log(doubled);
           getValue: function () {
             return document.getElementById('fallbackEditor').value;
           },
+          setValue: function (val) {
+            document.getElementById('fallbackEditor').value = val;
+          }
         };
 
-        // Add tab support for the fallback editor
-        document
-          .getElementById('fallbackEditor')
-          .addEventListener('keydown', (e) => {
-            if (e.key === 'Tab') {
-              e.preventDefault();
+        const fallbackEl = document.getElementById('fallbackEditor');
+        fallbackEl.addEventListener('input', function() {
+          handleCodeChange();
+        });
 
-              const start = e.target.selectionStart;
-              const end = e.target.selectionEnd;
+        // Add tab support and keyboard shortcuts for the fallback editor
+        fallbackEl.addEventListener('keydown', (e) => {
+          const isCtrlOrCmd = e.ctrlKey || e.metaKey;
+          if (e.key === 'Tab') {
+            e.preventDefault();
 
-              // Insert tab at cursor or indent selected text
-              e.target.value =
-                e.target.value.substring(0, start) +
-                '  ' +
-                e.target.value.substring(end);
+            const start = e.target.selectionStart;
+            const end = e.target.selectionEnd;
 
-              // Move cursor after the inserted tab
-              e.target.selectionStart = e.target.selectionEnd = start + 2;
-            } else if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-              runCode();
-              e.preventDefault();
+            // Insert tab at cursor or indent selected text
+            e.target.value =
+              e.target.value.substring(0, start) +
+              '  ' +
+              e.target.value.substring(end);
+
+            // Move cursor after the inserted tab
+            e.target.selectionStart = e.target.selectionEnd = start + 2;
+          } else if (isCtrlOrCmd && e.key === 'Enter') {
+            runCode();
+            e.preventDefault();
+          } else if (isCtrlOrCmd && (e.key === 's' || e.key === 'S')) {
+            e.preventDefault();
+            if (e.shiftKey) {
+              saveFileAs();
+            } else {
+              saveFile();
             }
-          });
+          } else if (isCtrlOrCmd && (e.key === 'o' || e.key === 'O')) {
+            e.preventDefault();
+            openFile();
+          }
+        });
       }
 
       // Original console methods
@@ -880,14 +2012,85 @@ console.log(doubled);
       // Run button click handler
       runBtn.addEventListener('click', runCode);
 
-      // Add global keyboard shortcut for Ctrl-Enter/Cmd-Enter
+      // Global keyboard shortcuts for Ctrl-Enter/Cmd-Enter, Save, Save As, and Open
       document.addEventListener('keydown', function(event) {
-        // Check if Ctrl+Enter or Cmd+Enter was pressed
-        if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') {
-          event.preventDefault(); // Prevent default behavior
+        const isCtrlOrCmd = event.ctrlKey || event.metaKey;
+
+        if (isCtrlOrCmd && event.key === 'Enter') {
+          event.preventDefault();
           runCode();
+        } else if (isCtrlOrCmd && (event.key === 's' || event.key === 'S')) {
+          event.preventDefault();
+          if (event.shiftKey) {
+            saveFileAs();
+          } else {
+            saveFile();
+          }
+        } else if (isCtrlOrCmd && (event.key === 'o' || event.key === 'O')) {
+          event.preventDefault();
+          openFile();
         }
       });
+
+      // File operations button listeners
+      if (btnNew) btnNew.addEventListener('click', newFile);
+      if (btnOpen) btnOpen.addEventListener('click', openFile);
+      if (btnSave) btnSave.addEventListener('click', saveFile);
+      if (btnSaveAs) btnSaveAs.addEventListener('click', saveFileAs);
+
+      // Autosave toggle event listener
+      if (autosaveToggle) {
+        // Load saved autosave preference from localStorage (default: true)
+        const savedAutosaveState = localStorage.getItem('notejs-autosave');
+        if (savedAutosaveState !== null) {
+          isAutosaveEnabled = savedAutosaveState === 'true';
+          autosaveToggle.checked = isAutosaveEnabled;
+        }
+
+        autosaveToggle.addEventListener('change', function() {
+          isAutosaveEnabled = this.checked;
+          localStorage.setItem('notejs-autosave', isAutosaveEnabled);
+          if (isAutosaveEnabled) {
+            if (currentFileHandle && isDirty) {
+              triggerAutosave();
+            } else if (currentFileHandle) {
+              showToast(`Autosave enabled for ${currentFileName}`, 'success');
+              updateStatusText('Autosave ON');
+            } else {
+              showToast('Autosave enabled (active once a file is saved or opened)', 'info');
+              updateStatusText('Autosave ready');
+            }
+          } else {
+            clearTimeout(autosaveTimer);
+            showToast('Autosave disabled', 'info');
+            updateStatusText(isDirty ? 'Unsaved' : 'Saved');
+          }
+        });
+      }
+
+      // Hidden file input change listener for fallback mode
+      if (fileInput) {
+        fileInput.addEventListener('change', async (e) => {
+          const file = e.target.files && e.target.files[0];
+          if (!file) return;
+          try {
+            const content = await file.text();
+            currentFileHandle = null;
+            currentFileName = file.name;
+            setEditorContent(content);
+            lastSavedContent = content;
+            setDirtyState(false);
+            updateStatusText('Opened');
+            showToast(`Opened ${file.name}`, 'success');
+            if (isAutosaveEnabled) {
+              updateStatusText('Autosave ready');
+            }
+          } catch (err) {
+            console.error('Error reading file:', err);
+            showToast('Failed to read file', 'error');
+          }
+        });
+      }
 
       // Clear output button
       clearBtn.addEventListener('click', () => {
@@ -939,28 +2142,12 @@ console.log(doubled);
 
       // Theme picker functionality
       const themeSelect = document.getElementById('theme-select');
-      
-      // Load saved theme from localStorage if available
-      const savedTheme = localStorage.getItem('notejs-theme');
-      if (savedTheme) {
+      if (themeSelect) {
         themeSelect.value = savedTheme;
-        if (editor) {
-          editor.setOption('theme', savedTheme);
-        }
+        themeSelect.addEventListener('change', function() {
+          applyTheme(this.value);
+        });
       }
-      
-      // Theme change handler
-      themeSelect.addEventListener('change', function() {
-        const selectedTheme = this.value;
-        
-        // Update editor theme
-        if (editor) {
-          editor.setOption('theme', selectedTheme);
-        }
-        
-        // Save theme preference to localStorage
-        localStorage.setItem('notejs-theme', selectedTheme);
-      });
 
       // Font size picker functionality
       const codeFontSizeSelect = document.getElementById('code-font-size');
@@ -1053,17 +2240,12 @@ console.log(doubled);
       // Run the code initially
       setTimeout(runCode, 100); // Small delay to ensure editor is fully loaded
 
-      // Add confirmation dialog when user tries to quit with code in the editor
+      // Add confirmation dialog when user tries to quit with unsaved code
       window.onbeforeunload = function(e) {
-        // Get the code from the editor
-        const code = editor ? editor.getValue() : document.getElementById('fallbackEditor').value;
-        
-        // Check if there's code in the editor (ignoring whitespace)
-        if (code && code.trim() !== '') {
-          // Standard way to show a confirmation dialog when closing the page
-          const confirmMessage = 'Really Quit? You have code in the code pane.';
-          e.returnValue = confirmMessage; // For Chrome, Firefox, IE
-          return confirmMessage; // For Safari
+        if (isDirty) {
+          const confirmMessage = 'You have unsaved changes in NoteJS. Are you sure you want to quit?';
+          e.returnValue = confirmMessage;
+          return confirmMessage;
         }
       };
     </script>
