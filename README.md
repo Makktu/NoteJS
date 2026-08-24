@@ -134,7 +134,9 @@ The entire application is built with vanilla JavaScript - no frameworks, no buil
 
 ## Future Plans
 
-While always maintaining the simplicity of a single HTML file, future enhancements may include:
+Will always maintain the simplicity of a single HTML file, no matter how large it might get,
+
+Future enhancements may include:
 
 - Multiple tabs for working on several snippets
 - Enhanced console output with interactive objects

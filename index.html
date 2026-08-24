@@ -1,12 +1,16 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📝</text></svg>">
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📝</text></svg>"
+    />
     <title>NoteJS</title>
     <style>
-      :root, body[data-theme="darcula"] {
+      :root,
+      body[data-theme='darcula'] {
         --bg-app: #2b2b2b;
         --bg-header: #3c3f41;
         --bg-panel: #2b2b2b;
@@ -43,7 +47,7 @@
       }
 
       /* Night Owl (True Dark) */
-      body[data-theme="night-owl"] {
+      body[data-theme='night-owl'] {
         --bg-app: #011627;
         --bg-header: #0b2942;
         --bg-panel: #011627;
@@ -80,7 +84,7 @@
       }
 
       /* Material */
-      body[data-theme="material"] {
+      body[data-theme='material'] {
         --bg-app: #263238;
         --bg-header: #1e272c;
         --bg-panel: #263238;
@@ -117,7 +121,7 @@
       }
 
       /* Dracula */
-      body[data-theme="dracula"] {
+      body[data-theme='dracula'] {
         --bg-app: #282a36;
         --bg-header: #1e1f29;
         --bg-panel: #282a36;
@@ -154,7 +158,7 @@
       }
 
       /* Monokai */
-      body[data-theme="monokai"] {
+      body[data-theme='monokai'] {
         --bg-app: #272822;
         --bg-header: #1e1f1c;
         --bg-panel: #272822;
@@ -191,7 +195,7 @@
       }
 
       /* Nord */
-      body[data-theme="nord"] {
+      body[data-theme='nord'] {
         --bg-app: #2e3440;
         --bg-header: #242933;
         --bg-panel: #2e3440;
@@ -228,7 +232,7 @@
       }
 
       /* Solarized Dark */
-      body[data-theme="solarized"] {
+      body[data-theme='solarized'] {
         --bg-app: #002b36;
         --bg-header: #073642;
         --bg-panel: #002b36;
@@ -265,7 +269,7 @@
       }
 
       /* Tomorrow Night Bright */
-      body[data-theme="tomorrow-night-bright"] {
+      body[data-theme='tomorrow-night-bright'] {
         --bg-app: #000000;
         --bg-header: #1a1a1a;
         --bg-panel: #000000;
@@ -302,7 +306,7 @@
       }
 
       /* Ambiance */
-      body[data-theme="ambiance"] {
+      body[data-theme='ambiance'] {
         --bg-app: #202020;
         --bg-header: #2c2c2c;
         --bg-panel: #202020;
@@ -339,7 +343,7 @@
       }
 
       /* Eclipse Light */
-      body[data-theme="eclipse"] {
+      body[data-theme='eclipse'] {
         --bg-app: #f4f6f8;
         --bg-header: #e0e4e8;
         --bg-panel: #ffffff;
@@ -376,7 +380,7 @@
       }
 
       /* IntelliJ Light */
-      body[data-theme="idea"] {
+      body[data-theme='idea'] {
         --bg-app: #f2f2f2;
         --bg-header: #e6e6e6;
         --bg-panel: #ffffff;
@@ -422,7 +426,9 @@
         display: flex;
         flex-direction: column;
         overflow: hidden;
-        transition: background-color 0.2s ease, color 0.2s ease;
+        transition:
+          background-color 0.2s ease,
+          color 0.2s ease;
       }
 
       .header {
@@ -437,7 +443,9 @@
         gap: 12px;
         min-height: 48px;
         box-sizing: border-box;
-        transition: background-color 0.2s ease, border-color 0.2s ease;
+        transition:
+          background-color 0.2s ease,
+          border-color 0.2s ease;
       }
 
       .header-left {
@@ -464,7 +472,8 @@
         transition: fill 0.2s ease;
       }
 
-      h1, h2 {
+      h1,
+      h2 {
         margin: 0;
         color: var(--text-bright);
         transition: color 0.2s ease;
@@ -487,7 +496,10 @@
         cursor: pointer;
         outline: none;
         height: 30px;
-        transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+        transition:
+          background-color 0.2s ease,
+          border-color 0.2s ease,
+          color 0.2s ease;
       }
 
       .theme-picker select:hover,
@@ -512,7 +524,10 @@
         color: var(--text-bright);
         height: 20px;
         user-select: none;
-        transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+        transition:
+          background-color 0.2s ease,
+          border-color 0.2s ease,
+          color 0.2s ease;
       }
 
       .file-info-badge .file-icon {
@@ -570,7 +585,9 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        transition: background-color 0.2s ease, transform 0.1s ease;
+        transition:
+          background-color 0.2s ease,
+          transform 0.1s ease;
         box-sizing: border-box;
       }
 
@@ -695,7 +712,9 @@
         display: flex;
         height: 100%;
         background-color: var(--bg-panel);
-        transition: border-color 0.2s ease, background-color 0.2s ease;
+        transition:
+          border-color 0.2s ease,
+          background-color 0.2s ease;
       }
 
       /* Make CodeMirror fill the available space */
@@ -720,9 +739,12 @@
         cursor: pointer;
         z-index: 10;
         border: 1px solid var(--border-color);
-        transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+        transition:
+          background-color 0.2s ease,
+          border-color 0.2s ease,
+          color 0.2s ease;
       }
-      
+
       .copy-button:hover {
         background-color: var(--btn-primary-bg);
         color: #ffffff;
@@ -779,19 +801,19 @@
         right: 0;
         bottom: 0;
         background-color: var(--toggle-off);
-        transition: .4s;
+        transition: 0.4s;
         border-radius: 20px;
       }
 
       .toggle-slider:before {
         position: absolute;
-        content: "";
+        content: '';
         height: 14px;
         width: 14px;
         left: 3px;
         bottom: 3px;
         background-color: var(--text-main);
-        transition: .4s;
+        transition: 0.4s;
         border-radius: 50%;
       }
 
@@ -829,7 +851,10 @@
         width: 90%;
         z-index: 1001;
         box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
-        transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+        transition:
+          background-color 0.2s ease,
+          border-color 0.2s ease,
+          color 0.2s ease;
       }
       .modal-header {
         display: flex;
@@ -889,7 +914,10 @@
         border: 1px solid var(--border-color);
         border-radius: 5px;
         overflow-y: auto;
-        transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+        transition:
+          background-color 0.2s ease,
+          border-color 0.2s ease,
+          color 0.2s ease;
       }
       .console-log {
         color: var(--out-log);
@@ -980,7 +1008,11 @@
         z-index: 2000;
         opacity: 0;
         transform: translateY(12px);
-        transition: opacity 0.25s ease, transform 0.25s ease, background-color 0.2s ease, border-color 0.2s ease;
+        transition:
+          opacity 0.25s ease,
+          transform 0.25s ease,
+          background-color 0.2s ease,
+          border-color 0.2s ease;
         pointer-events: none;
         display: flex;
         align-items: center;
@@ -1129,9 +1161,25 @@
     <div class="header">
       <div class="header-left">
         <div class="logo-container">
-          <svg width="150" height="34" viewBox="0 0 150 50" xmlns="http://www.w3.org/2000/svg" fill="none" style="transform: scale(1.1); transform-origin: left center;">
-            <rect width="150" height="50" class="logo-rect" rx="8"/>
-            <text x="18" y="33" font-family="monospace" font-size="26" class="logo-text" font-weight="bold">Note{JS}</text>
+          <svg
+            width="150"
+            height="34"
+            viewBox="0 0 150 50"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            style="transform: scale(1.1); transform-origin: left center"
+          >
+            <rect width="150" height="50" class="logo-rect" rx="8" />
+            <text
+              x="18"
+              y="33"
+              font-family="monospace"
+              font-size="26"
+              class="logo-text"
+              font-weight="bold"
+            >
+              Note{JS}
+            </text>
           </svg>
           <div class="theme-picker">
             <select id="theme-select" title="Editor Theme">
@@ -1152,23 +1200,54 @@
         <div class="file-info-badge" id="file-info-badge" title="Current File">
           <span class="file-icon">📄</span>
           <span class="file-name" id="file-name">untitled.js</span>
-          <span class="dirty-indicator" id="dirty-indicator" title="Unsaved changes">●</span>
+          <span
+            class="dirty-indicator"
+            id="dirty-indicator"
+            title="Unsaved changes"
+            >●</span
+          >
           <span class="file-status" id="file-status"></span>
         </div>
       </div>
       <div class="header-center">
         <div class="file-buttons">
-          <button id="btn-new" class="btn-file" type="button" title="New File">New</button>
-          <button id="btn-open" class="btn-file" type="button" title="Open File (Cmd+O / Ctrl+O)">Open</button>
-          <button id="btn-save" class="btn-save" type="button" title="Save File (Cmd+S / Ctrl+S)">Save</button>
-          <button id="btn-save-as" class="btn-file" type="button" title="Save As... (Cmd+Shift+S / Ctrl+Shift+S)">Save As...</button>
+          <button id="btn-new" class="btn-file" type="button" title="New File">
+            New
+          </button>
+          <button
+            id="btn-open"
+            class="btn-file"
+            type="button"
+            title="Open File (Cmd+O / Ctrl+O)"
+          >
+            Open
+          </button>
+          <button
+            id="btn-save"
+            class="btn-save"
+            type="button"
+            title="Save File (Cmd+S / Ctrl+S)"
+          >
+            Save
+          </button>
+          <button
+            id="btn-save-as"
+            class="btn-file"
+            type="button"
+            title="Save As... (Cmd+Shift+S / Ctrl+Shift+S)"
+          >
+            Save As...
+          </button>
         </div>
       </div>
       <div class="header-right">
-        <div class="autosave-container" title="Automatically save file on edit when a file is open">
+        <div
+          class="autosave-container"
+          title="Automatically save file on edit when a file is open"
+        >
           <label for="autosave-toggle" class="autosave-label">Autosave</label>
           <label class="toggle-switch">
-            <input type="checkbox" id="autosave-toggle" checked>
+            <input type="checkbox" id="autosave-toggle" checked />
             <span class="toggle-slider"></span>
           </label>
         </div>
@@ -1180,7 +1259,12 @@
         </div>
       </div>
     </div>
-    <input type="file" id="file-input" accept=".js,.mjs,.cjs,.json,.ts,.txt,text/javascript,text/plain" style="display: none;">
+    <input
+      type="file"
+      id="file-input"
+      accept=".js,.mjs,.cjs,.json,.ts,.txt,text/javascript,text/plain"
+      style="display: none"
+    />
     <div class="container">
       <div class="code-area">
         <h2>Code</h2>
@@ -1188,7 +1272,7 @@
         <div class="toggle-container">
           <label for="autocomplete-toggle">Autocomplete</label>
           <label class="toggle-switch">
-            <input type="checkbox" id="autocomplete-toggle" checked>
+            <input type="checkbox" id="autocomplete-toggle" checked />
             <span class="toggle-slider"></span>
           </label>
         </div>
@@ -1231,20 +1315,44 @@
           <button class="modal-close" id="modal-close">&times;</button>
         </div>
         <div class="modal-body">
-          <p>NoteJS is a simple, in-browser JavaScript editor and runner. The app is made entirely in vanilla JavaScript, HTML, and CSS - all contained in a single file.</p>
-          <p>It provides a basic, uncluttered interface for writing and executing JavaScript code. Features include full-app cohesive themes (including Night Owl, Darcula, Material, Dracula, Monokai, Nord, Solarized, Tomorrow Night, Ambiance, Eclipse, and IntelliJ), syntax highlighting, code completion, a console for output, and full file save/open operations with native autosave.</p>
+          <p>
+            NoteJS is a simple, in-browser JavaScript editor and runner. The app
+            is made entirely in vanilla JavaScript, HTML, and CSS - all
+            contained in a single file.
+          </p>
+          <p>
+            It provides a basic, uncluttered interface for writing and executing
+            JavaScript code. Features include full-app cohesive themes
+            (including Night Owl, Darcula, Material, Dracula, Monokai, Nord,
+            Solarized, Tomorrow Night, Ambiance, Eclipse, and IntelliJ), syntax
+            highlighting, code completion, a console for output, and full file
+            save/open operations with native autosave.
+          </p>
           <p><strong>Keyboard Shortcuts:</strong></p>
-          <ul style="margin: 0 0 12px 20px; padding: 0; font-size: 0.9rem;">
+          <ul style="margin: 0 0 12px 20px; padding: 0; font-size: 0.9rem">
             <li><strong id="shortcut-run">Cmd/Ctrl+Enter</strong>: Run code</li>
             <li><strong id="shortcut-save">Cmd/Ctrl+S</strong>: Save file</li>
-            <li><strong id="shortcut-saveas">Cmd/Ctrl+Shift+S</strong>: Save As...</li>
+            <li>
+              <strong id="shortcut-saveas">Cmd/Ctrl+Shift+S</strong>: Save As...
+            </li>
             <li><strong id="shortcut-open">Cmd/Ctrl+O</strong>: Open file</li>
             <li><strong>Tab</strong>: Indent or autocomplete</li>
             <li><strong>Ctrl+Space</strong>: Show autocomplete</li>
           </ul>
-          <p><strong>Autosave:</strong> When enabled in the toolbar and a file is opened or saved, changes are automatically saved directly to the file on disk as you type.</p>
+          <p>
+            <strong>Autosave:</strong> When enabled in the toolbar and a file is
+            opened or saved, changes are automatically saved directly to the
+            file on disk as you type.
+          </p>
           <p class="creator">version: 1.2</p>
-          <p class="creator"><a class="theme-link" href="https://github.com/Makktu/NoteJS" target="_blank">view project on GitHub</a></p>
+          <p class="creator">
+            <a
+              class="theme-link"
+              href="https://github.com/Makktu/NoteJS"
+              target="_blank"
+              >view project on GitHub</a
+            >
+          </p>
         </div>
       </div>
     </div>
@@ -1265,15 +1373,42 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/theme/darcula.min.css"
     />
     <!-- Additional CodeMirror themes -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/theme/ambiance.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/theme/material.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/theme/dracula.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/theme/monokai.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/theme/nord.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/theme/solarized.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/theme/tomorrow-night-bright.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/theme/eclipse.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/theme/idea.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/theme/ambiance.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/theme/material.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/theme/dracula.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/theme/monokai.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/theme/nord.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/theme/solarized.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/theme/tomorrow-night-bright.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/theme/eclipse.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/theme/idea.min.css"
+    />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/addon/hint/show-hint.min.css"
@@ -1399,7 +1534,9 @@ console.log(doubled);
         if (fileNameEl) {
           fileNameEl.textContent = name;
         }
-        document.title = (dirty ? '● ' : '') + (currentFileName ? `${currentFileName} - NoteJS` : 'NoteJS');
+        document.title =
+          (dirty ? '● ' : '') +
+          (currentFileName ? `${currentFileName} - NoteJS` : 'NoteJS');
       }
 
       function updateStatusText(text) {
@@ -1442,13 +1579,20 @@ console.log(doubled);
           await writable.close();
           lastSavedContent = code;
           setDirtyState(false);
-          const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+          const timeStr = new Date().toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+          });
           updateStatusText(`Autosaved (${timeStr})`);
         } catch (err) {
           console.error('Autosave error:', err);
           updateStatusText('Autosave error');
           if (err.name === 'NotAllowedError') {
-            showToast('Autosave paused: Click Save to grant write permission', 'error');
+            showToast(
+              'Autosave paused: Click Save to grant write permission',
+              'error',
+            );
           }
         }
       }
@@ -1458,9 +1602,13 @@ console.log(doubled);
           try {
             updateStatusText('Saving...');
             if (currentFileHandle.queryPermission) {
-              const perm = await currentFileHandle.queryPermission({ mode: 'readwrite' });
+              const perm = await currentFileHandle.queryPermission({
+                mode: 'readwrite',
+              });
               if (perm !== 'granted') {
-                const req = await currentFileHandle.requestPermission({ mode: 'readwrite' });
+                const req = await currentFileHandle.requestPermission({
+                  mode: 'readwrite',
+                });
                 if (req !== 'granted') {
                   showToast('Permission to save file was denied', 'error');
                   updateStatusText('Permission denied');
@@ -1474,7 +1622,11 @@ console.log(doubled);
             await writable.close();
             lastSavedContent = code;
             setDirtyState(false);
-            const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            const timeStr = new Date().toLocaleTimeString([], {
+              hour: '2-digit',
+              minute: '2-digit',
+              second: '2-digit',
+            });
             updateStatusText(`Saved (${timeStr})`);
             showToast(`Saved to ${currentFileName}`, 'success');
             flashSaveButton();
@@ -1482,10 +1634,16 @@ console.log(doubled);
           } catch (err) {
             console.error('Save error:', err);
             updateStatusText('Save failed');
-            if (err.name === 'NotAllowedError' || err.name === 'NotFoundError') {
+            if (
+              err.name === 'NotAllowedError' ||
+              err.name === 'NotFoundError'
+            ) {
               return await saveFileAs();
             }
-            showToast('Error saving file: ' + (err.message || 'Unknown error'), 'error');
+            showToast(
+              'Error saving file: ' + (err.message || 'Unknown error'),
+              'error',
+            );
             return false;
           }
         } else {
@@ -1504,16 +1662,16 @@ console.log(doubled);
                 {
                   description: 'JavaScript File',
                   accept: {
-                    'text/javascript': ['.js', '.mjs', '.cjs']
-                  }
+                    'text/javascript': ['.js', '.mjs', '.cjs'],
+                  },
                 },
                 {
                   description: 'All Files',
                   accept: {
-                    '*/*': ['.*']
-                  }
-                }
-              ]
+                    '*/*': ['.*'],
+                  },
+                },
+              ],
             });
             if (!handle) return false;
             updateStatusText('Saving...');
@@ -1524,7 +1682,11 @@ console.log(doubled);
             currentFileName = handle.name;
             lastSavedContent = code;
             setDirtyState(false);
-            const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            const timeStr = new Date().toLocaleTimeString([], {
+              hour: '2-digit',
+              minute: '2-digit',
+              second: '2-digit',
+            });
             updateStatusText(`Saved (${timeStr})`);
             showToast(`Saved as ${currentFileName}`, 'success');
             flashSaveButton();
@@ -1533,18 +1695,28 @@ console.log(doubled);
             if (err.name === 'AbortError') return false;
             console.error('Save As error:', err);
             updateStatusText('Save failed');
-            showToast('Error saving file: ' + (err.message || 'Unknown error'), 'error');
+            showToast(
+              'Error saving file: ' + (err.message || 'Unknown error'),
+              'error',
+            );
             return false;
           }
         } else {
           // Fallback for browsers without File System Access API
           try {
             const defaultName = currentFileName || 'script.js';
-            const userChosen = prompt('Enter file name to save as:', defaultName);
+            const userChosen = prompt(
+              'Enter file name to save as:',
+              defaultName,
+            );
             if (userChosen === null) return false;
             const finalName = userChosen.trim() || defaultName;
-            const fileName = finalName.includes('.') ? finalName : `${finalName}.js`;
-            const blob = new Blob([code], { type: 'text/javascript;charset=utf-8' });
+            const fileName = finalName.includes('.')
+              ? finalName
+              : `${finalName}.js`;
+            const blob = new Blob([code], {
+              type: 'text/javascript;charset=utf-8',
+            });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
@@ -1557,7 +1729,11 @@ console.log(doubled);
             currentFileName = fileName;
             lastSavedContent = code;
             setDirtyState(false);
-            const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            const timeStr = new Date().toLocaleTimeString([], {
+              hour: '2-digit',
+              minute: '2-digit',
+              second: '2-digit',
+            });
             updateStatusText(`Saved (${timeStr})`);
             showToast(`Downloaded ${fileName}`, 'success');
             flashSaveButton();
@@ -1572,7 +1748,9 @@ console.log(doubled);
 
       async function openFile() {
         if (isDirty) {
-          const proceed = confirm('You have unsaved changes. Do you want to open another file and discard them?');
+          const proceed = confirm(
+            'You have unsaved changes. Do you want to open another file and discard them?',
+          );
           if (!proceed) return;
         }
 
@@ -1584,17 +1762,24 @@ console.log(doubled);
                   description: 'JavaScript & Text Files',
                   accept: {
                     'text/javascript': ['.js', '.mjs', '.cjs'],
-                    'text/plain': ['.txt', '.json', '.ts', '.jsx', '.html', '.css']
-                  }
+                    'text/plain': [
+                      '.txt',
+                      '.json',
+                      '.ts',
+                      '.jsx',
+                      '.html',
+                      '.css',
+                    ],
+                  },
                 },
                 {
                   description: 'All Files',
                   accept: {
-                    '*/*': ['.*']
-                  }
-                }
+                    '*/*': ['.*'],
+                  },
+                },
               ],
-              multiple: false
+              multiple: false,
             });
             if (!handle) return;
             const file = await handle.getFile();
@@ -1612,7 +1797,10 @@ console.log(doubled);
           } catch (err) {
             if (err.name === 'AbortError') return;
             console.error('Open file error:', err);
-            showToast('Error opening file: ' + (err.message || 'Unknown error'), 'error');
+            showToast(
+              'Error opening file: ' + (err.message || 'Unknown error'),
+              'error',
+            );
           }
         } else {
           if (fileInput) {
@@ -1624,7 +1812,9 @@ console.log(doubled);
 
       function newFile() {
         if (isDirty) {
-          const proceed = confirm('You have unsaved changes. Do you want to create a new file and discard them?');
+          const proceed = confirm(
+            'You have unsaved changes. Do you want to create a new file and discard them?',
+          );
           if (!proceed) return;
         }
         currentFileHandle = null;
@@ -1639,7 +1829,7 @@ console.log(doubled);
       // Function to extract user-defined variables and functions from code
       function extractUserDefinedSymbols(code) {
         const symbols = new Set();
-        
+
         // Regular expressions to match variable and function declarations
         const patterns = [
           // const/let/var declarations
@@ -1655,19 +1845,24 @@ console.log(doubled);
           // object property assignments
           /\.([a-zA-Z_$][a-zA-Z0-9_$]*)\s*=/g,
           // object destructuring
-          /{\s*([a-zA-Z_$][a-zA-Z0-9_$]*)\s*}/g
+          /{\s*([a-zA-Z_$][a-zA-Z0-9_$]*)\s*}/g,
         ];
-        
+
         // Apply each pattern to extract symbols
-        patterns.forEach(pattern => {
+        patterns.forEach((pattern) => {
           let match;
           while ((match = pattern.exec(code)) !== null) {
-            if (match[1] && !match[1].match(/^(if|else|return|for|while|switch|case|break|continue|default|try|catch|finally|throw|new|this|typeof|instanceof|in|of|do|void|delete|yield|await|async|function|class|extends|super|import|export|from|as|const|let|var)$/)) {
+            if (
+              match[1] &&
+              !match[1].match(
+                /^(if|else|return|for|while|switch|case|break|continue|default|try|catch|finally|throw|new|this|typeof|instanceof|in|of|do|void|delete|yield|await|async|function|class|extends|super|import|export|from|as|const|let|var)$/,
+              )
+            ) {
               symbols.add(match[1]);
             }
           }
         });
-        
+
         return Array.from(symbols);
       }
 
@@ -1675,27 +1870,31 @@ console.log(doubled);
       function customHint(editor, options) {
         // Get the default JavaScript hints
         const defaultHints = CodeMirror.hint.javascript(editor, options);
-        
+
         // Extract user-defined symbols from the current editor content
         const userSymbols = extractUserDefinedSymbols(editor.getValue());
-        
+
         // Current token being typed
         const cursor = editor.getCursor();
         const token = editor.getTokenAt(cursor);
         const tokenString = token.string;
-        
+
         // Filter user symbols based on current token
         const matchingUserSymbols = userSymbols
-          .filter(symbol => symbol.startsWith(tokenString) && !defaultHints.list.includes(symbol))
-          .map(symbol => ({
+          .filter(
+            (symbol) =>
+              symbol.startsWith(tokenString) &&
+              !defaultHints.list.includes(symbol),
+          )
+          .map((symbol) => ({
             text: symbol,
             displayText: symbol,
-            className: 'user-defined-hint'
+            className: 'user-defined-hint',
           }));
-        
+
         // Combine default hints with user-defined symbols
         defaultHints.list = [...defaultHints.list, ...matchingUserSymbols];
-        
+
         return defaultHints;
       }
 
@@ -1705,33 +1904,45 @@ console.log(doubled);
         if (!document.getElementById('autocomplete-toggle').checked) {
           return false;
         }
-        
+
         const cursor = cm.getCursor();
         const token = cm.getTokenAt(cursor);
         const line = cm.getLine(cursor.line);
         const prevChar = line.charAt(cursor.ch - 1) || '';
         const nextChar = line.charAt(cursor.ch) || '';
-        
+
         // Don't show hints in comments
         if (token.type === 'comment') return false;
-        
+
         // Don't show hints if the token is empty or just whitespace
         if (token.string.trim() === '') return false;
-        
+
         // Don't show hints for bracket or brace characters themselves
-        if (token.string === '(' || token.string === '{' || 
-            token.string === '[' || token.string === ')' || 
-            token.string === '}' || token.string === ']' ||
-            token.string === ';') return false;
-            
+        if (
+          token.string === '(' ||
+          token.string === '{' ||
+          token.string === '[' ||
+          token.string === ')' ||
+          token.string === '}' ||
+          token.string === ']' ||
+          token.string === ';'
+        )
+          return false;
+
         // Don't show hints immediately after typing an opening bracket or brace
         // but only if there's no other character between the cursor and the bracket
-        if ((prevChar === '(' || prevChar === '{' || prevChar === '[' || 
-             prevChar === ';') && token.string.length === 0) return false;
-        
+        if (
+          (prevChar === '(' ||
+            prevChar === '{' ||
+            prevChar === '[' ||
+            prevChar === ';') &&
+          token.string.length === 0
+        )
+          return false;
+
         // Don't show hints when typing a semicolon or right after typing one
         if (prevChar === ';' || token.string === ';') return false;
-        
+
         return true;
       }
 
@@ -1739,16 +1950,16 @@ console.log(doubled);
       function applyTheme(themeName) {
         const effectiveTheme = themeName || 'darcula';
         document.body.setAttribute('data-theme', effectiveTheme);
-        
+
         if (editor && typeof editor.setOption === 'function') {
           editor.setOption('theme', effectiveTheme);
         }
-        
+
         const themeSelectEl = document.getElementById('theme-select');
         if (themeSelectEl && themeSelectEl.value !== effectiveTheme) {
           themeSelectEl.value = effectiveTheme;
         }
-        
+
         try {
           localStorage.setItem('notejs-theme', effectiveTheme);
         } catch (e) {}
@@ -1776,12 +1987,24 @@ console.log(doubled);
           extraKeys: {
             'Ctrl-Enter': runCode,
             'Cmd-Enter': runCode,
-            'Ctrl-S': function (cm) { saveFile(); },
-            'Cmd-S': function (cm) { saveFile(); },
-            'Ctrl-Shift-S': function (cm) { saveFileAs(); },
-            'Cmd-Shift-S': function (cm) { saveFileAs(); },
-            'Ctrl-O': function (cm) { openFile(); },
-            'Cmd-O': function (cm) { openFile(); },
+            'Ctrl-S': function (cm) {
+              saveFile();
+            },
+            'Cmd-S': function (cm) {
+              saveFile();
+            },
+            'Ctrl-Shift-S': function (cm) {
+              saveFileAs();
+            },
+            'Cmd-Shift-S': function (cm) {
+              saveFileAs();
+            },
+            'Ctrl-O': function (cm) {
+              openFile();
+            },
+            'Cmd-O': function (cm) {
+              openFile();
+            },
             Tab: function (cm) {
               // If something is selected, indent it
               if (cm.somethingSelected()) {
@@ -1790,9 +2013,9 @@ console.log(doubled);
                 // Check if we should do autocompletion
                 if (shouldShowHints(cm)) {
                   // Use our custom hint function instead of the default
-                  CodeMirror.showHint(cm, customHint, { 
+                  CodeMirror.showHint(cm, customHint, {
                     completeSingle: false,
-                    closeOnUnfocus: false
+                    closeOnUnfocus: false,
                   });
                 } else {
                   // Just insert a soft tab
@@ -1800,19 +2023,19 @@ console.log(doubled);
                 }
               }
             },
-            'Ctrl-Space': function(cm) {
+            'Ctrl-Space': function (cm) {
               // Always show hints on explicit request with Ctrl-Space
-              CodeMirror.showHint(cm, customHint, { 
+              CodeMirror.showHint(cm, customHint, {
                 completeSingle: false,
-                closeOnUnfocus: false
+                closeOnUnfocus: false,
               });
-            }
+            },
           },
           hintOptions: {
             completeSingle: false,
             alignWithWord: true,
-            hint: customHint
-          }
+            hint: customHint,
+          },
         });
 
         // Add CSS for user-defined hints
@@ -1837,20 +2060,20 @@ console.log(doubled);
             8, 9, 13, 16, 17, 18, 19, 20, 27, 33, 34, 35, 36, 37, 38, 39, 40,
             45, 46, 91, 92, 93,
           ];
-          
+
           if (!excludeKeys.includes(event.keyCode)) {
             // Only show hints if context is appropriate
             if (shouldShowHints(cm)) {
               // Use our custom hint function instead of the default
-              CodeMirror.showHint(cm, customHint, { 
+              CodeMirror.showHint(cm, customHint, {
                 completeSingle: false,
-                closeOnUnfocus: false
+                closeOnUnfocus: false,
               });
             }
           }
         });
       } catch (e) {
-        // Fallback to textarea if CodeMirror fails to load
+        // Fallback to textarea should CodeMirror fail to load
         console.error('CodeMirror failed to load:', e);
         const editorDiv = document.getElementById('editor');
         editorDiv.innerHTML = '';
@@ -1867,11 +2090,11 @@ console.log(doubled);
           },
           setValue: function (val) {
             document.getElementById('fallbackEditor').value = val;
-          }
+          },
         };
 
         const fallbackEl = document.getElementById('fallbackEditor');
-        fallbackEl.addEventListener('input', function() {
+        fallbackEl.addEventListener('input', function () {
           handleCodeChange();
         });
 
@@ -2013,7 +2236,7 @@ console.log(doubled);
       runBtn.addEventListener('click', runCode);
 
       // Global keyboard shortcuts for Ctrl-Enter/Cmd-Enter, Save, Save As, and Open
-      document.addEventListener('keydown', function(event) {
+      document.addEventListener('keydown', function (event) {
         const isCtrlOrCmd = event.ctrlKey || event.metaKey;
 
         if (isCtrlOrCmd && event.key === 'Enter') {
@@ -2047,7 +2270,7 @@ console.log(doubled);
           autosaveToggle.checked = isAutosaveEnabled;
         }
 
-        autosaveToggle.addEventListener('change', function() {
+        autosaveToggle.addEventListener('change', function () {
           isAutosaveEnabled = this.checked;
           localStorage.setItem('notejs-autosave', isAutosaveEnabled);
           if (isAutosaveEnabled) {
@@ -2057,7 +2280,10 @@ console.log(doubled);
               showToast(`Autosave enabled for ${currentFileName}`, 'success');
               updateStatusText('Autosave ON');
             } else {
-              showToast('Autosave enabled (active once a file is saved or opened)', 'info');
+              showToast(
+                'Autosave enabled (active once a file is saved or opened)',
+                'info',
+              );
               updateStatusText('Autosave ready');
             }
           } else {
@@ -2100,23 +2326,24 @@ console.log(doubled);
       // Copy button functionality
       const codeCopyBtn = document.querySelector('.code-area .copy-button');
       const outputCopyBtn = document.querySelector('.output-copy');
-      
+
       // Function to handle copy operation
       function copyToClipboard(text, button) {
-        navigator.clipboard.writeText(text)
+        navigator.clipboard
+          .writeText(text)
           .then(() => {
             // Visual feedback
             const originalText = button.innerHTML;
             button.innerHTML = '✓';
             button.style.backgroundColor = '#4CAF50';
-            
+
             // Reset after a short delay
             setTimeout(() => {
               button.innerHTML = originalText;
               button.style.backgroundColor = '';
             }, 1000);
           })
-          .catch(err => {
+          .catch((err) => {
             console.error('Failed to copy text: ', err);
             // Visual feedback for error
             button.innerHTML = '❌';
@@ -2125,14 +2352,16 @@ console.log(doubled);
             }, 1000);
           });
       }
-      
+
       // Code copy button event listener
       codeCopyBtn.addEventListener('click', () => {
         // Get the code from the editor
-        const code = editor ? editor.getValue() : document.getElementById('fallbackEditor').value;
+        const code = editor
+          ? editor.getValue()
+          : document.getElementById('fallbackEditor').value;
         copyToClipboard(code, codeCopyBtn);
       });
-      
+
       // Output copy button event listener
       outputCopyBtn.addEventListener('click', () => {
         // Get the text content from the output div
@@ -2144,7 +2373,7 @@ console.log(doubled);
       const themeSelect = document.getElementById('theme-select');
       if (themeSelect) {
         themeSelect.value = savedTheme;
-        themeSelect.addEventListener('change', function() {
+        themeSelect.addEventListener('change', function () {
           applyTheme(this.value);
         });
       }
@@ -2152,21 +2381,23 @@ console.log(doubled);
       // Font size picker functionality
       const codeFontSizeSelect = document.getElementById('code-font-size');
       const outputFontSizeSelect = document.getElementById('output-font-size');
-      
+
       // Load saved font sizes from localStorage if available
       const savedCodeFontSize = localStorage.getItem('notejs-code-font-size');
-      const savedOutputFontSize = localStorage.getItem('notejs-output-font-size');
-      
+      const savedOutputFontSize = localStorage.getItem(
+        'notejs-output-font-size',
+      );
+
       if (savedCodeFontSize) {
         codeFontSizeSelect.value = savedCodeFontSize;
         updateCodeFontSize(savedCodeFontSize);
       }
-      
+
       if (savedOutputFontSize) {
         outputFontSizeSelect.value = savedOutputFontSize;
         updateOutputFontSize(savedOutputFontSize);
       }
-      
+
       // Function to update code editor font size
       function updateCodeFontSize(size) {
         if (editor) {
@@ -2175,24 +2406,25 @@ console.log(doubled);
           // Force a refresh to ensure proper rendering
           editor.refresh();
         } else if (document.getElementById('fallbackEditor')) {
-          document.getElementById('fallbackEditor').style.fontSize = `${size}px`;
+          document.getElementById('fallbackEditor').style.fontSize =
+            `${size}px`;
         }
       }
-      
+
       // Function to update output font size
       function updateOutputFontSize(size) {
         document.getElementById('output').style.fontSize = `${size}px`;
       }
-      
+
       // Code font size change handler
-      codeFontSizeSelect.addEventListener('change', function() {
+      codeFontSizeSelect.addEventListener('change', function () {
         const selectedSize = this.value;
         updateCodeFontSize(selectedSize);
         localStorage.setItem('notejs-code-font-size', selectedSize);
       });
-      
+
       // Output font size change handler
-      outputFontSizeSelect.addEventListener('change', function() {
+      outputFontSizeSelect.addEventListener('change', function () {
         const selectedSize = this.value;
         updateOutputFontSize(selectedSize);
         localStorage.setItem('notejs-output-font-size', selectedSize);
@@ -2200,15 +2432,17 @@ console.log(doubled);
 
       // Autocomplete toggle functionality
       const autocompleteToggle = document.getElementById('autocomplete-toggle');
-      
+
       // Load saved autocomplete preference from localStorage if available
-      const savedAutocompleteState = localStorage.getItem('notejs-autocomplete');
+      const savedAutocompleteState = localStorage.getItem(
+        'notejs-autocomplete',
+      );
       if (savedAutocompleteState !== null) {
         autocompleteToggle.checked = savedAutocompleteState === 'true';
       }
-      
+
       // Autocomplete toggle change handler
-      autocompleteToggle.addEventListener('change', function() {
+      autocompleteToggle.addEventListener('change', function () {
         // Save preference to localStorage
         localStorage.setItem('notejs-autocomplete', this.checked);
       });
@@ -2241,9 +2475,10 @@ console.log(doubled);
       setTimeout(runCode, 100); // Small delay to ensure editor is fully loaded
 
       // Add confirmation dialog when user tries to quit with unsaved code
-      window.onbeforeunload = function(e) {
+      window.onbeforeunload = function (e) {
         if (isDirty) {
-          const confirmMessage = 'You have unsaved changes in NoteJS. Are you sure you want to quit?';
+          const confirmMessage =
+            'You have unsaved changes in NoteJS. Are you sure you want to quit?';
           e.returnValue = confirmMessage;
           return confirmMessage;
         }
