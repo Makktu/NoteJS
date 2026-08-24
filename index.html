@@ -758,11 +758,54 @@
         z-index: 10;
       }
 
+      /* Format button styles */
+      .format-button {
+        position: absolute;
+        top: 10px;
+        right: 145px;
+        z-index: 10;
+        background-color: var(--bg-control);
+        color: var(--text-main);
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        padding: 0 10px;
+        height: 30px;
+        font-size: 13px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        cursor: pointer;
+        outline: none;
+        user-select: none;
+        transition:
+          background-color 0.2s ease,
+          border-color 0.2s ease,
+          color 0.2s ease,
+          transform 0.1s ease;
+      }
+
+      .format-button:hover {
+        background-color: var(--btn-primary-bg);
+        color: #ffffff;
+        border-color: var(--btn-primary-hover);
+      }
+
+      .format-button:active {
+        transform: scale(0.97);
+      }
+
+      .format-button.success {
+        background-color: var(--btn-save-bg);
+        color: #ffffff;
+        border-color: var(--btn-save-hover);
+      }
+
       /* Toggle switch styles */
       .toggle-container {
         position: absolute;
         top: 10px;
-        right: 155px;
+        right: 245px;
         z-index: 10;
         display: flex;
         align-items: center;
@@ -934,7 +977,38 @@
       .syntax-error {
         color: var(--out-err);
         font-weight: bold;
-        margin-bottom: 5px;
+        margin-bottom: 6px;
+        line-height: 1.4;
+        word-break: break-word;
+      }
+      .error-line-badge {
+        display: inline-flex;
+        align-items: center;
+        margin-left: 6px;
+        padding: 1px 7px;
+        background-color: rgba(255, 83, 112, 0.15);
+        color: var(--out-err);
+        border: 1px solid rgba(255, 83, 112, 0.35);
+        border-radius: 4px;
+        font-size: 11px;
+        font-family: 'Segoe UI', sans-serif;
+        font-weight: 600;
+        cursor: pointer;
+        user-select: none;
+        vertical-align: middle;
+        transition:
+          background-color 0.2s ease,
+          border-color 0.2s ease,
+          transform 0.1s ease;
+      }
+      .error-line-badge:hover {
+        background-color: rgba(255, 83, 112, 0.28);
+        border-color: var(--out-err);
+        transform: translateY(-1px);
+      }
+      .line-error-highlight {
+        background-color: rgba(255, 83, 112, 0.22) !important;
+        transition: background-color 0.5s ease;
       }
 
       pre {
@@ -1154,6 +1228,18 @@
           padding: 6px 10px;
           font-size: 12px;
         }
+        .toggle-container label {
+          font-size: 12px;
+          margin-right: 4px;
+        }
+        .format-button {
+          padding: 0 6px;
+          font-size: 12px;
+          right: 125px;
+        }
+        .toggle-container {
+          right: 210px;
+        }
       }
     </style>
   </head>
@@ -1276,6 +1362,14 @@
             <span class="toggle-slider"></span>
           </label>
         </div>
+        <button
+          id="btn-format"
+          class="format-button"
+          type="button"
+          title="Format Code (Shift+Alt+F / Cmd+Option+F)"
+        >
+          ✨ Format
+        </button>
         <div class="font-size-picker">
           <select id="code-font-size">
             <option value="12">12px</option>
@@ -1325,8 +1419,9 @@
             JavaScript code. Features include full-app cohesive themes
             (including Night Owl, Darcula, Material, Dracula, Monokai, Nord,
             Solarized, Tomorrow Night, Ambiance, Eclipse, and IntelliJ), syntax
-            highlighting, code completion, a console for output, and full file
-            save/open operations with native autosave.
+            highlighting, intelligent code completion, smart live auto-indentation,
+            code formatting, interactive line-referenced error reporting, a console for output,
+            and full file save/open operations with native autosave.
           </p>
           <p><strong>Keyboard Shortcuts:</strong></p>
           <ul style="margin: 0 0 12px 20px; padding: 0; font-size: 0.9rem">
@@ -1336,7 +1431,11 @@
               <strong id="shortcut-saveas">Cmd/Ctrl+Shift+S</strong>: Save As...
             </li>
             <li><strong id="shortcut-open">Cmd/Ctrl+O</strong>: Open file</li>
+            <li>
+              <strong id="shortcut-format">Shift+Alt+F / Cmd+Option+F</strong>: Format code
+            </li>
             <li><strong>Tab</strong>: Indent or autocomplete</li>
+            <li><strong>Shift+Tab</strong>: Outdent line / selection</li>
             <li><strong>Ctrl+Space</strong>: Show autocomplete</li>
           </ul>
           <p>
@@ -1344,7 +1443,7 @@
             opened or saved, changes are automatically saved directly to the
             file on disk as you type.
           </p>
-          <p class="creator">version: 1.2</p>
+          <p class="creator">version: 1.3</p>
           <p class="creator">
             <a
               class="theme-link"
@@ -1364,6 +1463,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/addon/edit/matchbrackets.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/addon/hint/show-hint.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/addon/hint/javascript-hint.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.7/beautify.min.js"></script>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/codemirror.min.css"
@@ -1450,6 +1550,7 @@ console.log(doubled);
       const btnOpen = document.getElementById('btn-open');
       const btnSave = document.getElementById('btn-save');
       const btnSaveAs = document.getElementById('btn-save-as');
+      const btnFormat = document.getElementById('btn-format');
       const autosaveToggle = document.getElementById('autosave-toggle');
       const fileInput = document.getElementById('file-input');
 
@@ -1465,11 +1566,14 @@ console.log(doubled);
       // Set platform-specific keyboard shortcut text
       const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
       const modKey = isMac ? 'Cmd' : 'Ctrl';
+      const altKeyName = isMac ? 'Option' : 'Alt';
       runBtn.textContent = `Run (${modKey}+Enter)`;
       if (btnSave) btnSave.title = `Save File (${modKey}+S)`;
       if (btnSaveAs) btnSaveAs.title = `Save As... (${modKey}+Shift+S)`;
       if (btnOpen) btnOpen.title = `Open File (${modKey}+O)`;
       if (btnNew) btnNew.title = `New File`;
+      if (btnFormat)
+        btnFormat.title = `Format Code (Shift+${altKeyName}+F / ${modKey}+${altKeyName}+F)`;
 
       const shortcutRun = document.getElementById('shortcut-run');
       if (shortcutRun) shortcutRun.textContent = `${modKey}+Enter`;
@@ -1479,6 +1583,9 @@ console.log(doubled);
       if (shortcutSaveAs) shortcutSaveAs.textContent = `${modKey}+Shift+S`;
       const shortcutOpen = document.getElementById('shortcut-open');
       if (shortcutOpen) shortcutOpen.textContent = `${modKey}+O`;
+      const shortcutFormat = document.getElementById('shortcut-format');
+      if (shortcutFormat)
+        shortcutFormat.textContent = `Shift+${altKeyName}+F / ${modKey}+${altKeyName}+F`;
 
       // Helper functions for editor abstraction, status, toast, and file operations
       function getEditorContent() {
@@ -1523,6 +1630,158 @@ console.log(doubled);
           btnSave.textContent = originalText;
           btnSave.style.backgroundColor = '';
         }, 1000);
+      }
+
+      function flashFormatButton() {
+        const btn = document.getElementById('btn-format');
+        if (!btn) return;
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '✓ Formatted';
+        btn.classList.add('success');
+        setTimeout(() => {
+          btn.innerHTML = originalText;
+          btn.classList.remove('success');
+        }, 1200);
+      }
+
+      // Lightweight fallback JavaScript formatter
+      function fallbackFormatJS(code, indentSize = 2) {
+        if (!code) return '';
+        const lines = code.split('\n');
+        let indentLevel = 0;
+        const indentStr = ' '.repeat(indentSize);
+        const result = [];
+        let inMultiComment = false;
+
+        for (let i = 0; i < lines.length; i++) {
+          let line = lines[i].trim();
+
+          if (!line) {
+            result.push('');
+            continue;
+          }
+
+          if (inMultiComment) {
+            result.push(indentStr.repeat(indentLevel) + line);
+            if (line.includes('*/')) inMultiComment = false;
+            continue;
+          }
+
+          if (line.startsWith('/*')) {
+            if (!line.includes('*/')) inMultiComment = true;
+            result.push(indentStr.repeat(indentLevel) + line);
+            continue;
+          }
+
+          if (line.startsWith('//')) {
+            result.push(indentStr.repeat(indentLevel) + line);
+            continue;
+          }
+
+          let openBraces = 0;
+          let closeBraces = 0;
+          let inSingleQuote = false;
+          let inDoubleQuote = false;
+          let inBacktick = false;
+
+          for (let j = 0; j < line.length; j++) {
+            const ch = line[j];
+            const prev = j > 0 ? line[j - 1] : '';
+
+            if (ch === "'" && !inDoubleQuote && !inBacktick && prev !== '\\') {
+              inSingleQuote = !inSingleQuote;
+            } else if (
+              ch === '"' &&
+              !inSingleQuote &&
+              !inBacktick &&
+              prev !== '\\'
+            ) {
+              inDoubleQuote = !inDoubleQuote;
+            } else if (
+              ch === '`' &&
+              !inSingleQuote &&
+              !inDoubleQuote &&
+              prev !== '\\'
+            ) {
+              inBacktick = !inBacktick;
+            }
+
+            if (!inSingleQuote && !inDoubleQuote && !inBacktick) {
+              if (ch === '{' || ch === '[' || ch === '(') openBraces++;
+              else if (ch === '}' || ch === ']' || ch === ')') closeBraces++;
+            }
+          }
+
+          // If line starts with closing delimiter, decrease indent before rendering
+          if (/^[\}\]\)]/.test(line)) {
+            indentLevel = Math.max(0, indentLevel - 1);
+          }
+
+          result.push(indentStr.repeat(indentLevel) + line);
+
+          const net = openBraces - closeBraces;
+          if (/^[\}\]\)]/.test(line)) {
+            indentLevel = Math.max(0, indentLevel + net + 1);
+          } else {
+            indentLevel = Math.max(0, indentLevel + net);
+          }
+        }
+
+        return result.join('\n');
+      }
+
+      function formatCode() {
+        const code = getEditorContent();
+        if (!code || code.trim() === '') {
+          showToast('Editor is empty', 'info');
+          return;
+        }
+
+        let formatted = '';
+        if (typeof js_beautify === 'function') {
+          try {
+            formatted = js_beautify(code, {
+              indent_size: 2,
+              indent_char: ' ',
+              max_preserve_newlines: 2,
+              preserve_newlines: true,
+              keep_array_indentation: false,
+              break_chained_methods: false,
+              indent_scripts: 'normal',
+              brace_style: 'collapse,preserve-inline',
+              space_before_conditional: true,
+              unescape_strings: false,
+              jslint_happy: false,
+              end_with_newline: false,
+              wrap_line_length: 80,
+              indent_inner_html: false,
+              comma_first: false,
+              e4x: false,
+              indent_empty_lines: false,
+            });
+          } catch (err) {
+            console.error('js_beautify error:', err);
+            formatted = fallbackFormatJS(code, 2);
+          }
+        } else {
+          formatted = fallbackFormatJS(code, 2);
+        }
+
+        if (formatted) {
+          if (editor && typeof editor.getValue === 'function') {
+            const cursor = editor.getCursor();
+            editor.setValue(formatted);
+            editor.setCursor(
+              Math.min(cursor.line, editor.lineCount() - 1),
+              cursor.ch,
+            );
+          } else {
+            setEditorContent(formatted);
+          }
+          handleCodeChange();
+          flashFormatButton();
+          showToast('Code formatted', 'success');
+        }
       }
 
       function setDirtyState(dirty) {
@@ -1969,6 +2228,46 @@ console.log(doubled);
       const savedTheme = localStorage.getItem('notejs-theme') || 'darcula';
       applyTheme(savedTheme);
 
+      // Smart Enter handler for live auto-indentation and brace/bracket expansion
+      function handleSmartEnter(cm) {
+        if (cm.somethingSelected()) {
+          cm.replaceSelection('');
+        }
+        const cursor = cm.getCursor();
+        const line = cm.getLine(cursor.line);
+        const before = line.slice(0, cursor.ch);
+        const after = line.slice(cursor.ch);
+
+        const isBetweenBraces =
+          before.trimEnd().endsWith('{') && after.trimStart().startsWith('}');
+        const isBetweenBrackets =
+          before.trimEnd().endsWith('[') && after.trimStart().startsWith(']');
+        const isBetweenParens =
+          before.trimEnd().endsWith('(') && after.trimStart().startsWith(')');
+
+        if (isBetweenBraces || isBetweenBrackets || isBetweenParens) {
+          cm.operation(() => {
+            // 1. Insert newline and smart-indent line containing cursor
+            cm.replaceRange('\n', cursor);
+            cm.indentLine(cursor.line + 1, 'smart');
+
+            // 2. Insert another newline right before the closing bracket
+            const middleCursor = cm.getCursor();
+            cm.replaceRange('\n', middleCursor);
+
+            // 3. Re-indent closing bracket line to match outer block level
+            cm.indentLine(middleCursor.line + 1, 'smart');
+
+            // 4. Place cursor in the middle indented line
+            cm.setCursor(middleCursor);
+          });
+          return;
+        }
+
+        // Standard newline and smart indentation
+        cm.execCommand('newlineAndIndent');
+      }
+
       // Initialize CodeMirror editor
       try {
         editor = CodeMirror(document.getElementById('editor'), {
@@ -1976,6 +2275,8 @@ console.log(doubled);
           mode: 'javascript',
           theme: savedTheme,
           lineNumbers: true,
+          smartIndent: true,
+          electricChars: true,
           autoCloseBrackets: true,
           matchBrackets: true,
           indentUnit: 2,
@@ -2004,6 +2305,33 @@ console.log(doubled);
             },
             'Cmd-O': function (cm) {
               openFile();
+            },
+            'Shift-Alt-F': function (cm) {
+              formatCode();
+            },
+            'Shift-Cmd-F': function (cm) {
+              formatCode();
+            },
+            'Ctrl-Shift-F': function (cm) {
+              formatCode();
+            },
+            'Alt-Cmd-F': function (cm) {
+              formatCode();
+            },
+            'Ctrl-Alt-F': function (cm) {
+              formatCode();
+            },
+            'Alt-Cmd-L': function (cm) {
+              formatCode();
+            },
+            'Ctrl-Alt-L': function (cm) {
+              formatCode();
+            },
+            Enter: function (cm) {
+              handleSmartEnter(cm);
+            },
+            'Shift-Tab': function (cm) {
+              cm.indentSelection('subtract');
             },
             Tab: function (cm) {
               // If something is selected, indent it
@@ -2049,8 +2377,25 @@ console.log(doubled);
         document.head.appendChild(style);
 
         // Listen for editor changes to track dirty state and trigger autosave
-        editor.on('change', function () {
+        editor.on('change', function (cm, changeObj) {
           handleCodeChange();
+
+          // Live auto-alignment: when closing delimiter is typed alone on a line, snap its indentation
+          if (
+            changeObj &&
+            changeObj.origin === '+input' &&
+            changeObj.text &&
+            changeObj.text.length === 1
+          ) {
+            const char = changeObj.text[0];
+            if (char === '}' || char === ']' || char === ')') {
+              const cursor = cm.getCursor();
+              const line = cm.getLine(cursor.line);
+              if (line && line.trim() === char) {
+                cm.indentLine(cursor.line, 'smart');
+              }
+            }
+          }
         });
 
         // Setup autocompletion
@@ -2098,7 +2443,7 @@ console.log(doubled);
           handleCodeChange();
         });
 
-        // Add tab support and keyboard shortcuts for the fallback editor
+        // Add tab support, smart Enter, and keyboard shortcuts for the fallback editor
         fallbackEl.addEventListener('keydown', (e) => {
           const isCtrlOrCmd = e.ctrlKey || e.metaKey;
           if (e.key === 'Tab') {
@@ -2107,14 +2452,60 @@ console.log(doubled);
             const start = e.target.selectionStart;
             const end = e.target.selectionEnd;
 
-            // Insert tab at cursor or indent selected text
-            e.target.value =
-              e.target.value.substring(0, start) +
-              '  ' +
-              e.target.value.substring(end);
+            if (e.shiftKey) {
+              // Outdent
+              const val = e.target.value;
+              const lineStart = val.lastIndexOf('\n', start - 1) + 1;
+              if (val.substring(lineStart, lineStart + 2) === '  ') {
+                e.target.value =
+                  val.substring(0, lineStart) + val.substring(lineStart + 2);
+                e.target.selectionStart = Math.max(lineStart, start - 2);
+                e.target.selectionEnd = Math.max(lineStart, end - 2);
+              }
+            } else {
+              // Insert soft tab
+              e.target.value =
+                e.target.value.substring(0, start) +
+                '  ' +
+                e.target.value.substring(end);
+              e.target.selectionStart = e.target.selectionEnd = start + 2;
+            }
+          } else if (e.key === 'Enter') {
+            e.preventDefault();
+            const start = e.target.selectionStart;
+            const end = e.target.selectionEnd;
+            const val = e.target.value;
+            const lineStart = val.lastIndexOf('\n', start - 1) + 1;
+            const currentLine = val.substring(lineStart, start);
+            const indentMatch = currentLine.match(/^\s*/);
+            let indent = indentMatch ? indentMatch[0] : '';
+            const charBefore = val.charAt(start - 1);
+            const charAfter = val.charAt(start);
 
-            // Move cursor after the inserted tab
-            e.target.selectionStart = e.target.selectionEnd = start + 2;
+            if (charBefore === '{' && charAfter === '}') {
+              const newIndent = indent + '  ';
+              e.target.value =
+                val.substring(0, start) +
+                '\n' +
+                newIndent +
+                '\n' +
+                indent +
+                val.substring(end);
+              e.target.selectionStart = e.target.selectionEnd =
+                start + 1 + newIndent.length;
+            } else {
+              if (
+                charBefore === '{' ||
+                charBefore === '(' ||
+                charBefore === '['
+              ) {
+                indent += '  ';
+              }
+              e.target.value =
+                val.substring(0, start) + '\n' + indent + val.substring(end);
+              e.target.selectionStart = e.target.selectionEnd =
+                start + 1 + indent.length;
+            }
           } else if (isCtrlOrCmd && e.key === 'Enter') {
             runCode();
             e.preventDefault();
@@ -2128,6 +2519,13 @@ console.log(doubled);
           } else if (isCtrlOrCmd && (e.key === 'o' || e.key === 'O')) {
             e.preventDefault();
             openFile();
+          } else if (
+            (e.shiftKey && e.altKey && (e.key === 'f' || e.key === 'F')) ||
+            (isCtrlOrCmd && e.altKey && (e.key === 'f' || e.key === 'F')) ||
+            (isCtrlOrCmd && e.shiftKey && (e.key === 'f' || e.key === 'F'))
+          ) {
+            e.preventDefault();
+            formatCode();
           }
         });
       }
@@ -2168,6 +2566,164 @@ console.log(doubled);
         return pre;
       }
 
+      function jumpToLine(lineNum, colNum = 1) {
+        if (editor && typeof editor.setCursor === 'function') {
+          const targetLine = Math.max(0, lineNum - 1);
+          const targetCol = Math.max(0, (colNum || 1) - 1);
+          editor.focus();
+          editor.setCursor({ line: targetLine, ch: targetCol });
+          editor.scrollIntoView({ line: targetLine, ch: targetCol }, 100);
+
+          // Flash highlight the line in the editor
+          editor.addLineClass(targetLine, 'background', 'line-error-highlight');
+          setTimeout(() => {
+            editor.removeLineClass(
+              targetLine,
+              'background',
+              'line-error-highlight',
+            );
+          }, 1800);
+        } else {
+          const fallback = document.getElementById('fallbackEditor');
+          if (fallback) {
+            fallback.focus();
+            const lines = fallback.value.split('\n');
+            let pos = 0;
+            for (let i = 0; i < Math.min(lineNum - 1, lines.length); i++) {
+              pos += lines[i].length + 1;
+            }
+            fallback.setSelectionRange(
+              pos,
+              pos + (lines[lineNum - 1] ? lines[lineNum - 1].length : 0),
+            );
+          }
+        }
+      }
+
+      function findSyntaxErrorLine(code) {
+        if (!code) return null;
+        try {
+          new Function(code);
+          return null;
+        } catch (err) {
+          const lines = code.split('\n');
+          let accumulated = '';
+          for (let i = 0; i < lines.length; i++) {
+            accumulated += lines[i] + '\n';
+            try {
+              new Function(accumulated);
+            } catch (syntaxErr) {
+              const msg = syntaxErr.message || '';
+              if (
+                !msg.includes('Unexpected end of input') &&
+                !msg.includes('Unexpected token }') &&
+                !msg.includes("Unexpected token '}'") &&
+                !msg.includes('missing ) after argument list') &&
+                !msg.includes('missing } after property list') &&
+                !msg.includes('missing ] after element list')
+              ) {
+                return { line: i + 1, column: 1 };
+              }
+            }
+          }
+          for (let i = lines.length - 1; i >= 0; i--) {
+            if (lines[i].trim().length > 0) return { line: i + 1, column: 1 };
+          }
+          return { line: 1, column: 1 };
+        }
+      }
+
+      function extractErrorLocation(error, code = '') {
+        if (!error) return null;
+
+        // Check Firefox & Safari native line properties
+        if (
+          typeof error.lineNumber === 'number' &&
+          !isNaN(error.lineNumber) &&
+          error.lineNumber > 0
+        ) {
+          return { line: error.lineNumber, column: error.columnNumber || 1 };
+        }
+        if (
+          typeof error.line === 'number' &&
+          !isNaN(error.line) &&
+          error.line > 0
+        ) {
+          return { line: error.line, column: error.column || 1 };
+        }
+
+        const stack = error.stack || '';
+
+        // Priority 1: Match notejs-script.js:<line>:<col>
+        const noteMatch = stack.match(/notejs-script\.js:(\d+)(?::(\d+))?/i);
+        if (noteMatch) {
+          const lineNum = parseInt(noteMatch[1], 10);
+          const colNum = noteMatch[2] ? parseInt(noteMatch[2], 10) : 1;
+          if (lineNum > 0) return { line: lineNum, column: colNum };
+        }
+
+        // Priority 2: Match <anonymous>:<line>:<col> or debugger eval code:<line>:<col>
+        const anonMatch = stack.match(
+          /(?:<anonymous>|debugger eval code|eval at [^)]+):(\d+)(?::(\d+))?/i,
+        );
+        if (anonMatch) {
+          const lineNum = parseInt(anonMatch[1], 10);
+          const colNum = anonMatch[2] ? parseInt(anonMatch[2], 10) : 1;
+          if (lineNum > 0) return { line: lineNum, column: colNum };
+        }
+
+        // Priority 3: Match trailing :line:col
+        const lines = stack.split('\n');
+        for (let i = 0; i < lines.length; i++) {
+          const m = lines[i].match(/:(\d+):(\d+)\)?$/);
+          if (m) {
+            const lineNum = parseInt(m[1], 10);
+            const colNum = parseInt(m[2], 10);
+            if (lineNum > 0) return { line: lineNum, column: colNum };
+          }
+        }
+
+        // If it is a SyntaxError, pinpoint line with incremental parsing
+        if (error.name === 'SyntaxError' && code) {
+          return findSyntaxErrorLine(code);
+        }
+
+        return null;
+      }
+
+      function renderError(error, code = '', customPrefix = '') {
+        const loc = extractErrorLocation(error, code);
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'syntax-error';
+
+        const errorName = error.name || 'Error';
+        const errorMessage = error.message || String(error);
+        const errorText = customPrefix
+          ? `${customPrefix}: ${errorMessage}`
+          : `${errorName}: ${errorMessage}`;
+
+        const msgSpan = document.createElement('span');
+        msgSpan.textContent = errorText;
+        errorDiv.appendChild(msgSpan);
+
+        if (loc && loc.line > 0) {
+          const badge = document.createElement('span');
+          badge.className = 'error-line-badge';
+          badge.textContent = `line ${loc.line}${loc.column > 1 ? `:${loc.column}` : ''}`;
+          badge.title = `Click to jump to line ${loc.line} in editor`;
+          badge.setAttribute('data-line', loc.line);
+          badge.setAttribute('data-col', loc.column || 1);
+
+          badge.addEventListener('click', () => {
+            jumpToLine(loc.line, loc.column || 1);
+          });
+
+          errorDiv.appendChild(badge);
+        }
+
+        outputDiv.appendChild(errorDiv);
+      }
+
       function runCode() {
         // Clear previous output
         outputDiv.innerHTML = '';
@@ -2192,7 +2748,20 @@ console.log(doubled);
         };
 
         console.error = function () {
-          outputDiv.appendChild(formatOutput(arguments, 'error'));
+          const div = formatOutput(arguments, 'error');
+          const err = new Error();
+          const loc = extractErrorLocation(err);
+          if (loc && loc.line > 0) {
+            const badge = document.createElement('span');
+            badge.className = 'error-line-badge';
+            badge.textContent = `line ${loc.line}${loc.column > 1 ? `:${loc.column}` : ''}`;
+            badge.title = `Click to jump to line ${loc.line} in editor`;
+            badge.addEventListener('click', () => {
+              jumpToLine(loc.line, loc.column || 1);
+            });
+            div.appendChild(badge);
+          }
+          outputDiv.appendChild(div);
           originalConsole.error.apply(console, arguments);
         };
 
@@ -2207,35 +2776,32 @@ console.log(doubled);
         };
 
         // Get code from editor
-        const code = editor.getValue();
+        const code = getEditorContent();
 
         try {
-          // Execute the code
-          const result = eval(code);
+          // Execute the code with sourceURL for exact line mapping
+          const codeToRun = code + '\n//# sourceURL=notejs-script.js';
+          const result = eval(codeToRun);
 
           // If the code returns a value and doesn't log anything, show the result
           if (result !== undefined && outputDiv.children.length === 0) {
             console.log(result);
           }
         } catch (error) {
-          // Handle errors
-          const errorDiv = document.createElement('div');
-          errorDiv.className = 'syntax-error';
-          errorDiv.textContent = `${error.name}: ${error.message}`;
-          outputDiv.appendChild(errorDiv);
+          renderError(error, code);
+        } finally {
+          // Restore original console
+          console.log = originalConsole.log;
+          console.error = originalConsole.error;
+          console.warn = originalConsole.warn;
+          console.info = originalConsole.info;
         }
-
-        // Restore original console
-        console.log = originalConsole.log;
-        console.error = originalConsole.error;
-        console.warn = originalConsole.warn;
-        console.info = originalConsole.info;
       }
 
       // Run button click handler
       runBtn.addEventListener('click', runCode);
 
-      // Global keyboard shortcuts for Ctrl-Enter/Cmd-Enter, Save, Save As, and Open
+      // Global keyboard shortcuts for Ctrl-Enter/Cmd-Enter, Save, Save As, Open, and Format
       document.addEventListener('keydown', function (event) {
         const isCtrlOrCmd = event.ctrlKey || event.metaKey;
 
@@ -2252,14 +2818,31 @@ console.log(doubled);
         } else if (isCtrlOrCmd && (event.key === 'o' || event.key === 'O')) {
           event.preventDefault();
           openFile();
+        } else if (
+          (event.shiftKey &&
+            event.altKey &&
+            (event.key === 'f' || event.key === 'F')) ||
+          (isCtrlOrCmd &&
+            event.altKey &&
+            (event.key === 'f' || event.key === 'F')) ||
+          (isCtrlOrCmd &&
+            event.shiftKey &&
+            (event.key === 'f' || event.key === 'F')) ||
+          (isCtrlOrCmd &&
+            event.altKey &&
+            (event.key === 'l' || event.key === 'L'))
+        ) {
+          event.preventDefault();
+          formatCode();
         }
       });
 
-      // File operations button listeners
+      // File and format operations button listeners
       if (btnNew) btnNew.addEventListener('click', newFile);
       if (btnOpen) btnOpen.addEventListener('click', openFile);
       if (btnSave) btnSave.addEventListener('click', saveFile);
       if (btnSaveAs) btnSaveAs.addEventListener('click', saveFileAs);
+      if (btnFormat) btnFormat.addEventListener('click', formatCode);
 
       // Autosave toggle event listener
       if (autosaveToggle) {

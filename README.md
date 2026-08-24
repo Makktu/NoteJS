@@ -93,6 +93,28 @@ NoteJS offers several customization options:
 - Turn automatic saving on or off directly from the toolbar switch
 - Remembers your preference across browser sessions
 
+## Code Formatting & Live Auto-Indentation
+
+NoteJS includes a full JavaScript code formatter and live smart indentation:
+
+- **Format Code**: Click the **✨ Format** button in the code pane or press `Shift+Alt+F` / `Cmd+Option+F` (or `Cmd+Shift+F` / `Ctrl+Alt+L`) to instantly format and beautify your code.
+- **Smart Live Auto-Indentation**:
+  - Hitting `Enter` between curly braces `{}` (e.g. `function foo() { | }`), brackets `[]`, or parentheses `()` automatically expands them into a clean 3-line block with your cursor indented on the middle line and the closing delimiter aligned with the parent scope.
+  - Pressing `Enter` after any block statement (`if`, `for`, `while`, `function`, `=>`) automatically indents the next line.
+  - Electric delimiters: typing `}`, `]`, or `)` automatically aligns the line to its matching opening bracket.
+- **Indentation Controls**:
+  - `Tab`: Indent selection or insert soft 2-space tab.
+  - `Shift+Tab`: Outdent / unindent selected lines.
+
+## Error Reporting & Click-to-Jump Navigation
+
+NoteJS provides precise, line-referenced error diagnostics:
+
+- **Exact Line & Column Mapping**: Runtime errors (`ReferenceError`, `TypeError`, `RangeError`, custom exceptions) and syntax errors automatically extract and display their source line and column (e.g. `ReferenceError: working is not defined line 14:3`).
+- **Click-to-Jump**: Clicking on any error line badge in the output console immediately jumps the editor cursor to that line and scrolls it into view.
+- **Visual Error Flashing**: The offending line in the editor is highlighted with a temporary highlight flash for quick visual localization.
+- **Console Error Integration**: Manual `console.error(...)` calls also display their originating source line badge.
+
 ## Code Completion
 
 NoteJS features intelligent code completion:
@@ -109,7 +131,9 @@ NoteJS features intelligent code completion:
 - **Ctrl+S / Cmd+S**: Save current file
 - **Ctrl+Shift+S / Cmd+Shift+S**: Save As (new file)
 - **Ctrl+O / Cmd+O**: Open file
-- **Tab**: Indent or complete code
+- **Shift+Alt+F / Cmd+Option+F**: Format code (also `Cmd+Shift+F` / `Ctrl+Alt+L`)
+- **Tab**: Indent code / soft tab / complete suggestion
+- **Shift+Tab**: Outdent code
 - **Ctrl+Space**: Force show code completion
 - **Escape**: Close modals
 
